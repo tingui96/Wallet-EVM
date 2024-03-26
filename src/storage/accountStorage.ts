@@ -21,10 +21,10 @@ export const SaveAccount = (account: Account|null) => {
         const data : IHasPassword = { value : true , fecha : fecha.getTime() }
         newAccount.hasPass = data 
         localStorage.setItem('account',JSON.stringify(newAccount))
-        return true
+        return newAccount
     }
     localStorage.removeItem('account')
-    return false
+    return null
 }
 export const ClearAccount = () => {
     localStorage.removeItem('account')

@@ -2,42 +2,38 @@ import { create } from "zustand"
 import { RpcState } from "../types"
 import { addToRPCs, removeToRPCs } from "../utils/utils"
 import { useShallow } from "zustand/react/shallow"
-import { GetRPCs,SaveRPCS } from "../storage/rpcStorage"
+import { GetRPCs,SaveDefaultRPCS,SaveRPCS } from "../storage/rpcStorage"
 
 const defaultRPC = GetRPCs()
 
 const rpcStore = create<RpcState>((set) => ({
     defaultRPC: defaultRPC.defaultRPC,
     rpcs : defaultRPC.rpcs,
-    isSaved : false,
     selectRPC: (index:number) => {
         set((state) => ({
             ...state,
-            defaultRPC: state.rpcs[index]
-        }))
-        set((state) => ({
-            ...state,
-            isSaved: SaveRPCS({defaultRPC:state.defaultRPC,rpcs:state.rpcs})
+            defaultRPC: SaveDefaultRPCS({
+                defaultRPC:state.defaultRPC,
+                rpcs:state.rpcs}
+                ,index)
         }))
     },
     addRPC: (url:string) => {
         set((state) => ({
             ...state,
-            rpcs: addToRPCs(state.rpcs,url)
-        }))
-        set((state) => ({
-            ...state,
-            isSaved: SaveRPCS({defaultRPC:state.defaultRPC,rpcs:state.rpcs})
+            rpcs: SaveRPCS({
+                    defaultRPC:state.defaultRPC,
+                    rpcs:addToRPCs(state.rpcs,url)
+                })
         }))
     },
     removeRPC: (index:number) => {
         set((state) => ({
             ...state,
-            rpcs: removeToRPCs(state.rpcs,index)
-        }))
-        set((state) => ({
-            ...state,
-            isSaved: SaveRPCS({defaultRPC:state.defaultRPC,rpcs:state.rpcs})
+            rpcs: SaveRPCS({
+                defaultRPC: state.defaultRPC,
+                rpcs: removeToRPCs(state.rpcs,index)
+            }) 
         }))
     }
 }))

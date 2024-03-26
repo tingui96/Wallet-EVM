@@ -1,9 +1,8 @@
-import {ChangeEvent, SetStateAction, useEffect, useState} from "react";
+import {ChangeEvent, SetStateAction, useState} from "react";
 import { Heading, Text, Button, useToast, FormControl, FormLabel, FormHelperText,
      Input, InputGroup, InputRightElement, Divider
 } from "@chakra-ui/react"; 
 import { useAccount } from "../store/useAccount.js";
-import { createAccount } from "../utils/utils.js";
 import { Account } from "../types.js";
 import { Link } from "@nextui-org/react";
 

@@ -13,14 +13,12 @@ export interface IHasPassword {
 
 interface AccountState {
     account: Account|null
-    isSaved: boolean
     setAccount: (account:Account|null) => void
     ClearAccount: () => void
 }
 
 interface RpcState {
     defaultRPC : string
-    isSaved : boolean
     rpcs: string[]
     selectRPC: (index:number) => void
     addRPC: (url:string) => void

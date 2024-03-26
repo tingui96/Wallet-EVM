@@ -8,5 +8,12 @@ export const GetRPCs = ():RPC => {
 }
 export const SaveRPCS = (rpc: RPC) => {
     localStorage.setItem('rpc',JSON.stringify(rpc))
-    return true
+    return rpc.rpcs
+}
+
+export const SaveDefaultRPCS = (rpc: RPC,index: number) => {
+    let newRPC = structuredClone(rpc)
+    newRPC.defaultRPC = newRPC.rpcs[index]
+    localStorage.setItem('rpc',JSON.stringify(newRPC))
+    return newRPC.defaultRPC
 }

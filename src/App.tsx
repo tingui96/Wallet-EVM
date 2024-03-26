@@ -7,9 +7,9 @@ import { NextUIProvider } from '@nextui-org/react'
 import { useNavigate } from 'react-router-dom'
 import { Route,Routes } from 'react-router-dom'
 import { Setup } from './pages/Setup'
+import { Unlock } from './pages/Unlock'
 import { Password } from './pages/Password'
-import { Warning } from './pages/Warning'
-
+import { Main } from './pages/Main'
 function App() {
   const navigate = useNavigate();
   return (
@@ -23,13 +23,14 @@ function App() {
           >
             <Routes>
             <Route path='/' element={<Views/>}> </Route>
+            <Route path='/dashboard' element={<Main/>}></Route>
             <Route path="/setup" element={<Setup/>}></Route>
-            <Route path='/unlock' element={<Password/>}></Route>
-            <Route path='/setPass' element={<Warning/>}></Route>
+            <Route path='/unlock' element={<Unlock/>}></Route>
+            <Route path='/setPass' element={<Password/>}></Route>
             </Routes>       
           </Box>
       </div>
-        {IS_DEVELOPMENT && <Footer />}
+        {IS_DEVELOPMENT && <Footer/>}
     </NextUIProvider>
   )
 }

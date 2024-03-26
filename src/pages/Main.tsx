@@ -2,14 +2,13 @@ import { Box, Divider, Button, Text, Stack } from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
 import { useAccount } from "../store/useAccount";
 import { AccountData } from "../components/AccountData";
+import { Navigate } from "react-router-dom";
 
-type Props = {
-    publicKey: string
-}
-export const Main : React.FC<Props> = ({publicKey}) => {
-    const { ClearAccount } = useAccount()
+export const Main = () => {
+    const { account, ClearAccount } = useAccount()
     return(
         <>
+            { !account && <Navigate to='/setup'/>}
             <Box display="flex" justifyContent="center" width="100%"
                 maxWidth="600px" borderWidth="1px" p={6}>
                 <Stack width="100%" maxWidth="600px" justifyContent="center">
