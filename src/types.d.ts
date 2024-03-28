@@ -1,9 +1,7 @@
-import { KeyStore } from "web3"
+import { type KeystoreAccount } from "ethers"
 
 export interface Account {
-    privateKey : KeyStore
-    publicKey : string
-    saved : boolean
+    keystore: KeystoreAccount
     hasPass : IHasPassword
 }
 export interface IHasPassword {
@@ -12,7 +10,7 @@ export interface IHasPassword {
 }
 
 interface AccountState {
-    account: Account|null
+    account: Account |null
     setAccount: (account:Account|null) => void
     ClearAccount: () => void
 }

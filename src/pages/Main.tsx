@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 
 export const Main = () => {
     const { account, ClearAccount } = useAccount()
+    console.log(account)
     return(
         <>
             { !account && <Navigate to='/setup'/>}

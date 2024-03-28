@@ -10,7 +10,7 @@ type Props = {
 
 export const ModalRecive: React.FC<Props> = ({isOpen,onClose}) => {
   const { account } = useAccount()
-  const {onCopy ,hasCopied} = useClipboard(account? account.publicKey: '')
+  const {onCopy ,hasCopied} = useClipboard(account? '0x'+ account.keystore.address: '')
     return(
         <Modal isCentered isOpen={isOpen} onClose={onClose}>
                  <ModalContent>
@@ -18,12 +18,12 @@ export const ModalRecive: React.FC<Props> = ({isOpen,onClose}) => {
                    <ModalCloseButton />
                    <ModalBody >
                        <InputGroup  marginLeft={12}>
-                           {<QRCode value={account ? account.publicKey : ''} size={256} bgColor="#282c34" fgColor="#fff" level="H" />}
+                           {<QRCode value={account ? '0x'+ account.keystore.address : ''} size={256} bgColor="#282c34" fgColor="#fff" level="H" />}
                        </InputGroup>
                        <Text textAlign="center"fontSize="xl" mt={5}>O copie la direccion a continuación:</Text>
                        <InputGroup alignItems="center" size='md'>
                        
-                          <Input fontSize='0.8em' readOnly value={account?.publicKey} pr="4.5rem"/>
+                          <Input fontSize='0.8em' readOnly value={'0x' + account?.keystore.address} pr="4.5rem"/>
                           <InputRightElement width="4.5rem" >
                           <Button h="1.75rem" size='sm' onClick={onCopy}>
                             { !hasCopied ? <CopyIcon/>:<CheckIcon/>}

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ClearAccount, GetAccount, SaveAccount } from "../storage/accountStorage";
+import { GetAccount } from "../storage/accountStorage";
 import { useShallow } from "zustand/react/shallow";
 import { Account, AccountState } from "../types";
 
@@ -10,7 +10,7 @@ const accountStore = create<AccountState>((set) => ({
     setAccount: (account:Account|null) => {
         set((state) => ({
             ...state,
-            account: SaveAccount(account),
+            account: account,
             hasPass: true
             
         }))
@@ -18,7 +18,7 @@ const accountStore = create<AccountState>((set) => ({
     ClearAccount : () => {
         set((state) => ({
             ...state,
-            account: ClearAccount()
+            account: null
         }))
     },
 }))

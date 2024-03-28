@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .word {
+        @apply flex flex-row border-1 border-cyan-400 w-full justify-center rounded-xl bg-gradient-to-tr from-white to-cyan-600 font-mono
+    }
+    .btn-gradient {
+        @apply bg-gradient-to-tr from-pink-500 to-yellow-500 shadow-lg
+    }
+}

@@ -1,12 +1,16 @@
 import { useToast, Box,Input,InputGroup,Stack,InputRightElement,Button } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
-import Web3 from "web3";
+import { useAccount } from "../store/useAccount";
+import { GetPassWord } from "../storage/passwordStorage";
+import { calcularSHA256 } from "../utils/utils";
+import { SaveAccount } from "../storage/accountStorage";
 
 export const Unlock = () => {
+    const {account,setAccount} = useAccount()
+    const hashedPass = GetPassWord()
     const [password,setPassword] = useState('');
     const toast = useToast();
     //variables para guardar las Llaves
-    const web3 = new Web3();
 
     const handlePasswordChange = (event:ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
@@ -15,17 +19,22 @@ export const Unlock = () => {
     const handleClick = () => setShow(!show); 
 
     const Aceptar = () => {
-        
-            web3.eth.accounts.decrypt('encryptText',password).
-        catch( err =>
-            toast({
-                title: 'Error',
-                description: err.message,
-                status: 'error',
-                duration: 5000,
-                isClosable: true
-            }))
+        const newHashedPass = calcularSHA256(password)
+        if(newHashedPass === hashedPass && account)
+        {
+            let newAccount = structuredClone(account)
+            newAccount.hasPass.value = true
+            SaveAccount(newAccount)
+            setAccount(newAccount)
         }
+        toast({
+            title: 'Error',
+            description: 'Password does not match',
+            status: 'error',
+            duration: 5000,
+            isClosable: true
+        })
+    }
 
     return(
         <Box display="flex" justifyContent="center" width="100%"

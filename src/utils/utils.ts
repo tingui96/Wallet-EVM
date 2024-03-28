@@ -1,5 +1,6 @@
-import Web3 from "web3"
+import { sha256 } from "ethers"
 import { Account, Token } from "../types"
+import { generateMnemonic } from "bip39"
 
 export const addToTokens = (tokenList:Token[],token:Token):Token[] => {
     const newList = structuredClone(tokenList)
@@ -25,31 +26,13 @@ export const removeToRPCs = (rpcs:string[],index:number):string[] => {
     return newRpcs
 }
 
-export const createAccount = async (password:string) => {
-    const web3 = new Web3();
-    const wallet = web3.eth.accounts.create();
-    const secret = wallet.privateKey;
-    const publicKey = wallet.address;
-    const response = await web3.eth.accounts.encrypt(secret,password).then( res => {
-        const newAccount:Account = {
-            privateKey: res,
-            publicKey: publicKey,
-            saved: false,
-            hasPass: { value: true , fecha: 0 }
-        }
-        return newAccount
-    })
-    return response
-}
 export const importAccount = (encryptText:string,password:string) => {
-    const web3 = new Web3();
-    let newAccount: Account;
-    web3.eth.accounts.decrypt(encryptText,password).then(res => {
-         newAccount.publicKey = res.address
-         return res.encrypt(password)
-        }).then(key => {
-            newAccount.privateKey = key 
-        })
+    
 }
 
 export const validatePassword = (password:string,confirmPassword:string) => password === confirmPassword
+
+export function calcularSHA256(data:string) {
+    const hash = sha256('0x'+ data);
+    return hash
+}
