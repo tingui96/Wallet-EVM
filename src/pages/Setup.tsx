@@ -1,11 +1,14 @@
 import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper, useSteps } from "@chakra-ui/react"
 import { Card, CardBody, CardHeader } from "@nextui-org/react"
-import { Password } from "./Password"
+import { Password } from "../components/Password"
 import { useState } from "react"
-import { Mnemonic } from "./Mnemonic"
-import { Congratz } from "./Congratz"
+import { Mnemonic } from "../components/Mnemonic"
+import { Congratz } from "../components/Congratz"
+import { useAccount } from "../store/useAccount"
+import { Navigate } from "react-router-dom"
 
 export const Setup = () => {
+    const {account} = useAccount()
     const [mnemonic,setMnemonic] = useState('')
     const [password,setPassword] = useState('')
     const steps = [
@@ -21,17 +24,19 @@ export const Setup = () => {
     })
       
         return (
+    <>
+    {account && <Navigate to='/'/>}
         <Card className="min-w-[400px]">
             <CardHeader>
             <Stepper index={activeStep}>
             {steps.map((step, index) => (
-              <Step key={index}>
+                <Step key={index}>
                 <StepIndicator>
                   <StepStatus
                     complete={<StepIcon />}
                     incomplete={<StepNumber />}
                     active={<StepNumber />}
-                  />
+                    />
                 </StepIndicator>
       
                 <Box flexShrink='0'>
@@ -50,5 +55,6 @@ export const Setup = () => {
             </CardBody>
         </Card>
           
+    </>
         )
 }

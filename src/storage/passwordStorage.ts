@@ -1,6 +1,6 @@
 import { calcularSHA256 } from "../utils/utils"
 
-export const GetPassWord = () =>
+export const GetPassWordHash = () =>
 {
     let pass = localStorage.getItem('password')
     return pass

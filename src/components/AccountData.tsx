@@ -1,29 +1,33 @@
-import { BellIcon } from "@chakra-ui/icons"
-import { Button, InputGroup, InputRightElement, Text } from "@chakra-ui/react"
+import { InputGroup, useDisclosure } from "@chakra-ui/react"
 import { TableToken } from "./TableToken"
 import { ModalRecive } from "./ModalRecive"
-import { useDisclosure } from "@chakra-ui/react"
+import { Button} from "@nextui-org/react"
+import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import { useAccount } from "../store/useAccount"
+import { useMemo } from "react"
 
 export const AccountData = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { account } = useAccount()
+    const balance = useMemo(() => {
+        
+    },[account])
     return(
     <>
-       <InputGroup alignItems="center">
-           <Text textAlign="center" width=" 15rem" as="b" fontSize="xl">
-               Datos de la Cuenta
-           </Text>
-           <InputRightElement width="7rem">
-            {/* Notificaciones */}
-                  <BellIcon w={6} h={6} mr={5}/> 
-            {/* Notificaciones */}
-               <Button h="1.75rem"  colorScheme="telegram" size="sm" mr={2}
-                   onClick={onOpen}>Recibir</Button>
-               <ModalRecive isOpen={isOpen} onClose={onClose}/>
-            </InputRightElement>
-        </InputGroup>
+        <div className="flex justify-center justify-items-center gap-1 p-1">
+            <h1 className="font font-mono text-3xl">{'0,00'}</h1>
+        </div>
+        <div className="flex justify-center gap-3 p-3">
+            <Button isIconOnly className="max-w-2 rounded-full bg-cyan-950 text-white shadow-lg" onClick={onOpen}><GetAppOutlinedIcon fontSize="small"/></Button>
+            <Button isIconOnly className="max-w-2 rounded-full bg-cyan-950 text-white shadow-lg" onClick={onOpen}><SendOutlinedIcon fontSize="small"/></Button>
+            <ModalRecive isOpen={isOpen} onClose={onClose}/>
+        </div>
         <InputGroup>
             <TableToken/>
         </InputGroup>
+         
+   
     </>
     )
 }

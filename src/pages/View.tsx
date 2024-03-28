@@ -1,12 +1,11 @@
 import React from "react";
 import { useAccount } from "../store/useAccount";
-import { Init } from "./Init";
-import { Main } from "./Main";
-import { Unlock } from "./Unlock";
+import { Init } from "../components/Init";
+import { Main } from "../components/Main";
+import { Unlock } from "../components/Unlock";
 
 const Views:React.FC = () => {  
   const {account} = useAccount()
-  console.log(account)
     //Condiciones de navegacion
     return(
         <>

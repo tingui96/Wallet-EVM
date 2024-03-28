@@ -1,9 +1,7 @@
 import {ChangeEvent, useState} from "react";
-import { useToast, FormControl, FormLabel, FormHelperText,
-     Input, InputGroup, InputRightElement,
-} from "@chakra-ui/react"; 
+import { useToast } from "@chakra-ui/react"; 
 import { useAccount } from "../store/useAccount.js";
-import { Card,CardHeader, CardBody, Link, Button } from "@nextui-org/react";
+import { Card,CardHeader, CardBody, Link, Button, Input } from "@nextui-org/react";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import { Navigate } from "react-router-dom";
@@ -15,7 +13,7 @@ export const Init = () => {
     console.log(account)
     const [showImport,setShowImport] = useState(false);
     const [show, setShow] = useState(false);    
-    const [encryptText, setEncryptText] = useState<string>("")
+    const [encryptText, setEncryptText] = useState("")
 
     const handlePasswordChange = (event:ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
@@ -30,7 +28,7 @@ export const Init = () => {
     }
     return(
         <>
-        {account && <Navigate to='/dashboard' replace/>}
+        {account && <Navigate to='/'/>}
         <Card className="max-w-[400px]">
             <CardHeader className="grid justify-items-center">
                 <h1 className="text-4xl text-orange-900 m-5">
@@ -44,38 +42,32 @@ export const Init = () => {
                 <div className="grid grid-cols-2 justify-center justify-items-center gap-3">
                     <div className="grid m-5 justify-items-center">
                         <Button isIconOnly as={Link} href="/setup" size="lg" 
-                            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">
+                            className="btn-gradient text-white">
                             <LibraryAddIcon/>
                         </Button>
                         <div className="text text-justify font-serif">Crear cuenta nueva</div>
                     </div>
                     <div className="grid m-5 justify-items-center">
                         <Button as={Link} size='lg' isIconOnly
-                            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg" 
+                            className="btn-gradient text-white" 
                             onClick={() => setShowImport(true)} ><SystemUpdateAltIcon/> </Button>
                         <div className="text text-center font-serif mt-3">Importar una cuenta</div>                        
                     </div>
                 </div>
-                <FormControl hidden={!showImport} isRequired>
-                    <FormLabel mt={5}>Importar llave privada</FormLabel> 
-                    <Input type="file" multiple={false} onChange={ readFile }/>
-                </FormControl>
+                <div className="mb-4">
+                    <div className="grid justify-items-center p-3 gap-3" >
+                        <div className="font font-semibold">Importar llave privada <span className="font text-red-700">*</span></div> 
+                        <Input className="flex justify-items-center max-w-60" type="file" multiple={false} onChange={ readFile }/>
+                    </div>
 
-                <FormControl hidden={!showImport} isRequired>
-                    <FormLabel mt={3}>Contraseña para desencriptar archivo.</FormLabel>
-                    <InputGroup size='md'>
-                        <Input pr='4.5rem' type={show ? 'text' : 'password'} 
-                            placeholder='Enter password' onChange={handlePasswordChange}/>
-                        <InputRightElement width='4.5rem'>
-                            <Button size='sm'
-                             onClick={() => setShow(!show)}>
-                                {show ? 'Hide' : 'Show'}
-                            </Button>
-                        </InputRightElement>
-                    </InputGroup>
-                    <FormHelperText>Nunca compartas la llave privada.</FormHelperText>
-                    <Button onClick={importAccount}>Importar </Button>
-                </FormControl>
+                    <div className="grid justify-items-center gap-3">
+                        <div className="font font-semibold">Contraseña para desencriptar archivo <span className="font text-red-700">*</span></div>
+                        <Input className="flex justify-items-center max-w-60" type={show ? 'text' : 'password'} 
+                                placeholder='Enter password' onChange={handlePasswordChange}/>
+                        <div className="font font-mono">Nunca compartas la llave privada.</div>
+                        <Button className="btn-gradient text-white" onClick={importAccount}>Importar </Button>
+                    </div>
+                </div>
             </CardBody>     
         </Card>
     </>

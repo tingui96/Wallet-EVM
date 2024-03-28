@@ -1,6 +1,5 @@
 import { sha256 } from "ethers"
-import { Account, Token } from "../types"
-import { generateMnemonic } from "bip39"
+import { Token } from "../types"
 
 export const addToTokens = (tokenList:Token[],token:Token):Token[] => {
     const newList = structuredClone(tokenList)
@@ -24,10 +23,6 @@ export const removeToRPCs = (rpcs:string[],index:number):string[] => {
     const newRpcs = structuredClone(rpcs)
     newRpcs.splice(index,1)
     return newRpcs
-}
-
-export const importAccount = (encryptText:string,password:string) => {
-    
 }
 
 export const validatePassword = (password:string,confirmPassword:string) => password === confirmPassword

@@ -1,16 +1,16 @@
 import { create } from "zustand";
-import { GetAccount } from "../storage/accountStorage";
+import { ClearAccount, GetAccount, SaveAccount } from "../storage/accountStorage";
 import { useShallow } from "zustand/react/shallow";
 import { Account, AccountState } from "../types";
 
-const defaultAccount = GetAccount()
+const defaultAccount = await GetAccount()
 
 const accountStore = create<AccountState>((set) => ({
     account: defaultAccount,
     setAccount: (account:Account|null) => {
         set((state) => ({
             ...state,
-            account: account,
+            account: SaveAccount(account),
             hasPass: true
             
         }))
@@ -18,7 +18,7 @@ const accountStore = create<AccountState>((set) => ({
     ClearAccount : () => {
         set((state) => ({
             ...state,
-            account: null
+            account: ClearAccount()
         }))
     },
 }))

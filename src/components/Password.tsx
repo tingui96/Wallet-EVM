@@ -1,4 +1,4 @@
-import { CardFooter, Button, Input } from "@nextui-org/react";
+import { CardFooter, Button, Input, Link } from "@nextui-org/react";
 import React, { SetStateAction, useMemo, useState} from "react";
 import { validatePassword } from "../utils/utils";
 import { SavePassword } from "../storage/passwordStorage";
@@ -35,6 +35,7 @@ export const Password: React.FC<Props> = ({setMnemonic,setPassword,goNext}) => {
         if(password.length === 0) return true
         if(password.length < 8) return true
     },[password])
+
     return (
         <>
                 <div className="flex flex-col justify-center justify-items-center gap-4">
@@ -53,12 +54,16 @@ export const Password: React.FC<Props> = ({setMnemonic,setPassword,goNext}) => {
                       color={notMatchPassword ? "danger" : "default"}
                       />
                 </div>
-            <CardFooter className="flex flex-col gap-2">
-                <Button isLoading={loading} isDisabled={isInvalidLength||notMatchPassword} fullWidth radius="full" 
+            <CardFooter className="flex justify-between">
+                <Button as={Link} href="/" radius="full" 
+                    className="btn-gradient text-white">
+                        Back
+                    </Button>
+                <Button isLoading={loading} isDisabled={isInvalidLength||notMatchPassword} radius="full" 
                     className="btn-gradient text-white"
                     onClick={HandleContinueOnClick}>
                         Continue
-                    </Button>           
+                </Button>           
             </CardFooter>
     </>
     );

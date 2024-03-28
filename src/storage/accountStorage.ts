@@ -1,3 +1,4 @@
+import { Default_MIN_Unlock } from "../const"
 import { Account, IHasPassword } from "../types"
 
 export const GetAccount = ():Account|null => {
@@ -6,10 +7,11 @@ export const GetAccount = ():Account|null => {
     const fecha = new Date();
     if(result)
     {
-        if (fecha.getTime() - result.hasPass.fecha > (15*60 * 1000)) { 
+        if (fecha.getTime() - result.hasPass.fecha > (Default_MIN_Unlock * 60 * 1000)) { 
             result.hasPass.value = false
             return result;
-          }
+        }
+        else return result
     } 
     return null
 }
