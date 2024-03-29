@@ -1,8 +1,8 @@
 import { CardFooter, Button, Input, Link } from "@nextui-org/react";
 import React, { SetStateAction, useMemo, useState} from "react";
-import { validatePassword } from "../utils/utils";
-import { SavePassword } from "../storage/passwordStorage";
-import { createAccount } from "../services/accountService";
+import { validatePassword } from "../../utils/utils";
+import { SavePassword } from "../../storage/passwordStorage";
+import { createAccount } from "../../services/accountService";
 
 type Props = {
     setMnemonic: (string:SetStateAction<string>) => void

@@ -1,6 +1,6 @@
 import { create } from "zustand"
 import { RpcState } from "../types"
-import { addToRPCs, removeToRPCs } from "../utils/utils"
+import { addToRPCs, removeToRPCs, verifyRemoveDefault } from "../utils/utils"
 import { useShallow } from "zustand/react/shallow"
 import { GetRPCs,SaveDefaultRPCS,SaveRPCS } from "../storage/rpcStorage"
 
@@ -30,6 +30,7 @@ const rpcStore = create<RpcState>((set) => ({
     removeRPC: (index:number) => {
         set((state) => ({
             ...state,
+            defaultRPC: verifyRemoveDefault(state.rpcs,index,state.defaultRPC),
             rpcs: SaveRPCS({
                 defaultRPC: state.defaultRPC,
                 rpcs: removeToRPCs(state.rpcs,index)

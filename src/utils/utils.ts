@@ -24,6 +24,9 @@ export const removeToRPCs = (rpcs:string[],index:number):string[] => {
     newRpcs.splice(index,1)
     return newRpcs
 }
+export const verifyRemoveDefault = (rpcs:string[],index:number, value:string) => {
+    if(rpcs[index] === value) return rpcs[0]
+}
 
 export const validatePassword = (password:string,confirmPassword:string) => password === confirmPassword
 

@@ -2,10 +2,10 @@ import { Button, CardFooter } from "@nextui-org/react"
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import React, { useState } from "react"
 import { useClipboard } from "@chakra-ui/react";
-import { useAccount } from "../store/useAccount";
-import { MnemonicToPrivateKey } from "../services/accountService";
-import { Account } from "../types";
-import { SaveAccount } from "../storage/accountStorage";
+import { useAccount } from "../../store/useAccount";
+import { MnemonicToPrivateKey } from "../../services/accountService";
+import { Account } from "../../types";
+import { SaveAccount } from "../../storage/accountStorage";
 
 type Props = {
     mnemonic:string

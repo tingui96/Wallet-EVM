@@ -1,4 +1,5 @@
 import { type KeystoreAccount } from "ethers"
+import { ViewConfigPage } from "./const"
 
 export interface Account {
     keystore: KeystoreAccount
@@ -39,3 +40,5 @@ export interface Token {
     simbol: string
     balance: number
 }
+
+type ViewConfig = keyof ViewConfigPage

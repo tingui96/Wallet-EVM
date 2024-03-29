@@ -1,9 +1,9 @@
 import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper, useSteps } from "@chakra-ui/react"
 import { Card, CardBody, CardHeader } from "@nextui-org/react"
-import { Password } from "../components/Password"
+import { Password } from "../components/Setup/Password"
 import { useState } from "react"
-import { Mnemonic } from "../components/Mnemonic"
-import { Congratz } from "../components/Congratz"
+import { Mnemonic } from "../components/Setup/Mnemonic"
+import { Congratz } from "../components/Setup/Congratz"
 import { useAccount } from "../store/useAccount"
 import { Navigate } from "react-router-dom"
 

@@ -5,6 +5,7 @@ import { Footer } from './components/Footer'
 import { NextUIProvider } from '@nextui-org/react'
 import { Route,Routes, useNavigate } from 'react-router-dom'
 import { Setup } from './pages/Setup'
+import { Settings } from './pages/Settings'
 function App() {
   const navigate = useNavigate();
   return (
@@ -13,6 +14,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Views />}> </Route>
               <Route path='/setup' element={<Setup/>}> </Route>
+              <Route path='/setting' element={<Settings/>}> </Route>
             </Routes>       
       </div>
         {IS_DEVELOPMENT && <Footer/>}

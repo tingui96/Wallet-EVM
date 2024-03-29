@@ -25,7 +25,7 @@ export const Main = () => {
             <AccountData/>
           </CardBody>
           <CardFooter className="flex justify-between p-3">
-              <Button as={Link} isIconOnly>
+              <Button as={Link} href="/setting" isIconOnly>
                 <SettingsIcon/>
               </Button>
               <Button color="danger" onClick={ClearAccount}>
