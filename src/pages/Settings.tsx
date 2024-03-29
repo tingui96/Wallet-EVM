@@ -5,6 +5,7 @@ import { ViewConfig } from "../types"
 import { Configuration } from "../components/Configuration/Configuration"
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import { RPC } from "../components/Configuration/RPC"
+import { Exportar } from "../components/Configuration/Exportar"
 
 
 
@@ -21,7 +22,7 @@ export const Settings = () => {
                 <CardBody className="gap-3">
                     {viewConfig === ViewConfigPage.INDEX && <Configuration setViewConfig={setViewConfig}/>}
                     {viewConfig === ViewConfigPage.RPC && <RPC/>}
-
+                    {viewConfig === ViewConfigPage.EXPORT && <Exportar/>}
                 </CardBody>
                 <CardFooter className="flex justify-center">
                     { viewConfig !== ViewConfigPage.INDEX && <Button onClick={() => setViewConfig(ViewConfigPage.INDEX)}

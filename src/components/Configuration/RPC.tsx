@@ -13,8 +13,12 @@ export const RPC = () => {
        return newIndex
     },[defaultRPC,rpcs]) 
     
-    return(
+    return(<>
+        
         <div className="grid gap-3">
+        <div className="font font-semibold text-lg text-orange-800 flex justify-center">
+            RPC
+        </div>
         {
             rpcs?.map((value,i) => (
                 <div className="flex justify-between gap-2" key={i}>
@@ -55,5 +59,6 @@ export const RPC = () => {
 
             </Modal>
         </div>
+    </>
     )
 }

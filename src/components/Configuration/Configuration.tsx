@@ -10,12 +10,12 @@ export const Configuration: React.FC<Props> = ({setViewConfig}) => {
     return(
         <>
             <div className="flex justify-center">
-                <Button onClick={()=> {setViewConfig(ViewConfigPage.RPC)}}
+                <Button onClick={()=> {setViewConfig(ViewConfigPage.RPC)}} radius="full"
                  className="btn-gradient text-white w-full">Rpc</Button>
             </div>
             <div className="flex justify-center">
                 <Button onClick={()=> {setViewConfig(ViewConfigPage.EXPORT)}} radius="full"
-                 className="btn-gradient text-white w-full">Exportar clave</Button>
+                 className="btn-gradient text-white w-full">Exportar cuenta</Button>
             </div>      
         </>
     )
