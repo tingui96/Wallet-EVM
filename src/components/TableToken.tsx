@@ -12,7 +12,7 @@ export const TableToken = () => {
        <Table size='sm'>
          <Thead>
            <Tr>
-             <Th>Medicamento</Th>
+             <Th>Token</Th>
              <Th >cantidad</Th>
              {/*<Th>Pendientes de aceptar</Th>*/}
            </Tr>
