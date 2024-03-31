@@ -8,7 +8,7 @@ export const addToTokens = (tokenList:Token[],token:Token):Token[] => {
 }
 export const removeToken = (tokenList:Token[],index:number):Token[] => {
     const newList = structuredClone(tokenList)
-    tokenList.splice(index,1)
+    newList.splice(index,1)
     return newList
 }
 

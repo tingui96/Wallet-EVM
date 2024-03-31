@@ -7,25 +7,16 @@ import { useShallow } from "zustand/react/shallow";
 const getDefault = GetTokens()
 const tokenListStore = create<TokenState>((set) => ({
     tokenList: getDefault,
-    isSaved: false,
     addToken: (token:Token) => {
         set((state) => ({
             ...state,
-            tokenList: addToTokens(state.tokenList,token)
-        }))
-        set((state) => ({
-            ...state,
-            isSaved: SaveTokens(state.tokenList)
+            tokenList: SaveTokens(addToTokens(state.tokenList,token))
         }))
     },
     removeToken: (index:number) => {
         set((state) => ({
             ...state,
-            tokenList: removeToken(state.tokenList,index)
-        }))
-        set((state) => ({
-            ...state,
-            isSaved: SaveTokens(state.tokenList)
+            tokenList: SaveTokens(removeToken(state.tokenList,index))
         }))
     }
 }))

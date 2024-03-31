@@ -7,5 +7,5 @@ export const GetTokens = ():Token[] => {
 }
 export const SaveTokens = (tokenList: Token[]) => {
     localStorage.setItem('tokens',JSON.stringify(tokenList))
-    return true
+    return tokenList
 }

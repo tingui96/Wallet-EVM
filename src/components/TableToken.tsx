@@ -32,20 +32,22 @@ export const TableToken: React.FC = () => {
                       <TableCell>{element.simbol}</TableCell>
                       <TableCell width={300}>{ (Number.parseInt(element.balance) / Math.pow(10,Number.parseInt(element.decimals))) }</TableCell>
                       <TableCell>
-                        <Tooltip content={'Enviar '+element.simbol}>
-                          <div>
+                        
+                          <Button isIconOnly className="bg-foreground-20">
                             <KeyboardDoubleArrowRightIcon className="text-blue-900"/>
-                          </div>
-                        </Tooltip>
+                          </Button>
+                       
                       </TableCell>
                       <TableCell>
-                        <Tooltip content={'Quitar '+element.simbol}>
-                          <div className="cursor-pointer" onClick={() => removeToken(key)}>
+                       
+                          <Button isIconOnly className="bg-foreground-20" onClick={() => {
+                            console.log(key)
+                            removeToken(key)}}>
                             <ClearIcon className="text-red-700"/>
-                          </div>
-                        </Tooltip>
+                          </Button>
                       </TableCell>
-                   </TableRow> ))}
+                   </TableRow>
+                ))}
          </TableBody>  
        </Table>
     )
