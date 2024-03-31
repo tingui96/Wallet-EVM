@@ -1,32 +1,52 @@
-import { ArrowRightIcon } from "@chakra-ui/icons"
-import { TableContainer, Table, Thead, Tbody,Th, Tr, Td, Tooltip } from "@chakra-ui/react"
 import { useTokenList } from "../store/useTokenList"
+import { Button, Table, TableBody, TableCell, TableColumn, TableHeader,Tooltip, TableRow, useDisclosure } from "@nextui-org/react"
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import ClearIcon from '@mui/icons-material/Clear';
+import { ModalAddToken } from "./ModalAddToken";
 
-export const TableToken = () => {
-    const {tokenList} = useTokenList()
-    const onClick = () => {
-
-    }
+export const TableToken: React.FC = () => {
+    const {tokenList, addToken, removeToken} = useTokenList()
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    
     return (
-        <TableContainer>
-       <Table size='sm'>
-         <Thead>
-           <Tr>
-             <Th>Token</Th>
-             <Th >cantidad</Th>
+        <Table aria-label="token list"
+          bottomContent={
+            <div className="flex justify-center p-3">
+              <Button isIconOnly onClick={onOpen}
+               className="rounded-full bg-gradient-to-tr from-violet-700 to-cyan-500 text-white">
+                <AddCircleOutlineIcon/>
+              </Button>
+              <ModalAddToken isOpen={isOpen} onClose={onClose} addToken={addToken}  />
+            </div>}> 
+         <TableHeader>
+             <TableColumn>Token</TableColumn>
+             <TableColumn >cantidad</TableColumn>
+             <TableColumn>Enviar</TableColumn>
+             <TableColumn>Quitar</TableColumn>
              {/*<Th>Pendientes de aceptar</Th>*/}
-           </Tr>
-         </Thead>
-         <Tbody>
+         </TableHeader>
+         <TableBody>
              {tokenList?.map((element,key) => (
-                   <Tr key={key}
-                    onClick={onClick}>
-                     <Td>{element.simbol}</Td>
-                     <Td width={300}>{element.balance}</Td>
-                     <Td ><Tooltip label={"Send ".concat(element.simbol)}><ArrowRightIcon /></Tooltip></Td>
-                   </Tr> ))}
-         </Tbody>
+                   <TableRow key={key}>
+                      <TableCell>{element.simbol}</TableCell>
+                      <TableCell width={300}>{ (Number.parseInt(element.balance) / Math.pow(10,Number.parseInt(element.decimals))) }</TableCell>
+                      <TableCell>
+                        <Tooltip content={'Enviar '+element.simbol}>
+                          <div>
+                            <KeyboardDoubleArrowRightIcon className="text-blue-900"/>
+                          </div>
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell>
+                        <Tooltip content={'Quitar '+element.simbol}>
+                          <div className="cursor-pointer" onClick={() => removeToken(key)}>
+                            <ClearIcon className="text-red-700"/>
+                          </div>
+                        </Tooltip>
+                      </TableCell>
+                   </TableRow> ))}
+         </TableBody>  
        </Table>
-       </TableContainer>
     )
 }

@@ -24,7 +24,7 @@ export const RPC = () => {
                 <div className="flex justify-between gap-2" key={i}>
                     <Checkbox className="font-mono text-tiny" isSelected={i===index}
                      onClick={() => selectRPC(i)} radius="full">{value}</Checkbox>
-                    { i!==0 && <Button className="bg-foreground-20 text-red-700" 
+                    { i!==0 && i!==1 && <Button className="bg-foreground-20 text-red-700" 
                         onClick={() => removeRPC(i)} isIconOnly>
                         <DeleteOutlineIcon/></Button>}
                 </div>

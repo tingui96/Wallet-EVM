@@ -37,8 +37,9 @@ type RPC = {
 
 export interface Token {
     address: string
+    decimals: string
     simbol: string
-    balance: number
+    balance: string
 }
 
 type ViewConfig = keyof ViewConfigPage

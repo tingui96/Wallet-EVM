@@ -1,8 +1,9 @@
-import { BellIcon, SettingsIcon } from "@chakra-ui/icons";
+import { SettingsIcon } from "@chakra-ui/icons";
 import { useAccount } from "../store/useAccount";
 import { AccountData } from "./AccountData";
 import { Navigate } from "react-router-dom";
 import { Button, Card, CardHeader, CardBody, CardFooter, Link } from "@nextui-org/react";
+import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 
 export const Main = () => {
   const { account, ClearAccount } = useAccount()
@@ -17,19 +18,19 @@ export const Main = () => {
               </div>
               <div className="flex justify-center justify-items-center">
                 {/* Notificaciones */}
-                <Button isIconOnly className="bg bg-foreground-20"><BellIcon w={6} h={6}/></Button>  
+                <Button className="rounded-full bg-gradient-to-tr from-violet-700 to-cyan-500 text-white" as={Link} href="/setting" isIconOnly>
+                  <SettingsIcon/>
+                </Button>
                 {/* Notificaciones */}
               </div>
           </CardHeader>
           <CardBody>
             <AccountData/>
           </CardBody>
-          <CardFooter className="flex justify-between p-3">
-              <Button as={Link} href="/setting" isIconOnly>
-                <SettingsIcon/>
-              </Button>
-              <Button color="danger" onClick={ClearAccount}>
-                Cerrar cuenta
+          <CardFooter className="flex justify-end p-3">
+              
+              <Button isIconOnly className="bg-gradient-to-tr from-orange-500 to-red-500 text-white text-tiny" onClick={ClearAccount}>
+                <CancelPresentationIcon/>
               </Button> 
           </CardFooter>
         </Card>

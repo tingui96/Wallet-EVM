@@ -22,7 +22,6 @@ export const Mnemonic:React.FC<Props> = ({mnemonic,password,goNext}) => {
     const HandleContinueOnClick = async() => {
         setLoading(true)
         let newAccount = MnemonicToPrivateKey(mnemonic)
-        console.log(newAccount)
         newAccount.encrypt(password).then(res => {
             const fecha = new Date()
             const account:Account = {

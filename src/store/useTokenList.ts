@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { Token, TokenState } from "../types";
 import { addToTokens, removeToken } from "../utils/utils";
-import { SaveTokens } from "../storage/tokenStorage";
+import { GetTokens, SaveTokens } from "../storage/tokenStorage";
 import { useShallow } from "zustand/react/shallow";
 
+const getDefault = GetTokens()
 const tokenListStore = create<TokenState>((set) => ({
-    tokenList: [],
+    tokenList: getDefault,
     isSaved: false,
     addToken: (token:Token) => {
         set((state) => ({

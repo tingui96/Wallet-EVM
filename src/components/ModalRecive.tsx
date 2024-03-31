@@ -22,7 +22,7 @@ export const ModalRecive: React.FC<Props> = ({isOpen,onClose}) => {
                 <div className="flex justify-center">O copie la direccion a continuación:</div>
                 <div className="flex justify-center">          
                    <div className="flex w-full text-sm rounded-l-full">
-                      <input readOnly className="flex w-full text-center bg-gradient-to-tr from-gray-400 to-gray-600 text-white rounded-l-full" value={'0x' + account?.keystore.address}/>   
+                      <input readOnly aria-label="" className="flex w-full text-center bg-gradient-to-tr from-gray-400 to-gray-600 text-white rounded-l-full" value={'0x' + account?.keystore.address}/>   
                     </div>
                    <div>
                       <Button className="rounded-r-full bg-gradient-to-t btn-gradient text-white p-3" isIconOnly onClick={onCopy}>
