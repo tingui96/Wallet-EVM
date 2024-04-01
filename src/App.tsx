@@ -15,6 +15,7 @@ function App() {
               <Route path='/' element={<Views />}> </Route>
               <Route path='/setup' element={<Setup/>}> </Route>
               <Route path='/setting' element={<Settings/>}> </Route>
+              <Route path='*' element={<Views/>}> </Route>
             </Routes>       
       </div>
         {IS_DEVELOPMENT && <Footer/>}

@@ -6,10 +6,16 @@ import { Button, Card, CardHeader, CardBody, CardFooter, Link } from "@nextui-or
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import { FooterPending } from "./FooterPending";
 import { usePending } from "../store/usePending";
+import { useRPC } from "../store/useRPC";
 
 export const Main = () => {
   const { account, ClearAccount } = useAccount()
+  const { clearRPC } = useRPC()
   const {pending} = usePending()
+  const onCloseAll = () => {
+    ClearAccount()
+    clearRPC()
+  }
   return(
   <>
     { !account && <Navigate to='/setup'/>}
@@ -32,7 +38,8 @@ export const Main = () => {
           </CardBody>
           <CardFooter className="flex justify-end p-3">
               
-              <Button isIconOnly className="bg-gradient-to-tr from-orange-500 to-red-500 text-white text-tiny" onClick={ClearAccount}>
+              <Button isIconOnly className="bg-gradient-to-tr from-orange-500 to-red-500 text-white text-tiny" 
+                  onClick={onCloseAll}>
                 <CancelPresentationIcon/>
               </Button> 
           </CardFooter>

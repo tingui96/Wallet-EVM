@@ -22,6 +22,7 @@ interface RpcState {
     selectRPC: (index:number) => void
     addRPC: (rpc:RPC) => void
     removeRPC: (index: number) => void
+    ClearRPC: () => void
     updateTokenList: (newTokenList:RPC[]) => void
     addToken: (token:Token) => void
     removeToken: (index: number) => void

@@ -3,6 +3,7 @@ import { RPC, RpcState, Token } from "../types"
 import { addToRPCs, addToTokens, removeToRPCs, removeToken, verifyRemoveDefault } from "../utils/utils"
 import { useShallow } from "zustand/react/shallow"
 import { GetRPCs,SaveDefaultRPCS,SaveRPCS } from "../storage/rpcStorage"
+import { defaultRPCs } from "../const"
 
 const defaultRPC = GetRPCs()
 
@@ -36,6 +37,16 @@ const rpcStore = create<RpcState>((set) => ({
                 rpcs: removeToRPCs(state.rpcs,index)}) 
         }))
     },
+    ClearRPC: () => {
+        set((state) => ({
+            ...state,
+            defaultRPC: 0,
+            rpcs: SaveRPCS({
+                defaultRPC:0,
+                rpcs: defaultRPCs}) 
+        }))
+    },
+    
     updateTokenList: (newRPCList:RPC[]) => {
         set((state) => ({
             ...state,
@@ -65,6 +76,7 @@ export function useRPC() {
             selectRPC: state.selectRPC,
             addRPC: state.addRPC,
             removeRPC: state.removeRPC,
+            clearRPC: state.ClearRPC,
             updateTokenList: state.updateTokenList,
             addToken: state.addToken,
             removeToken: state.removeToken

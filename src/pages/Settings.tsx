@@ -6,13 +6,17 @@ import { Configuration } from "../components/Configuration/Configuration"
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import { RPC } from "../components/Configuration/RPC"
 import { Exportar } from "../components/Configuration/Exportar"
+import { useAccount } from "../store/useAccount"
+import { Navigate } from "react-router-dom"
 
 
 
 export const Settings = () => {
     const [viewConfig,setViewConfig] = useState<ViewConfig>(ViewConfigPage.INDEX)
+    const {account} = useAccount()
     return(
         <>
+            {!account && <Navigate to="/" replace/>}
             <Card className="p-3">
                 <CardHeader className="justify-center max-w-[340px]">
                     <div className="font font-bold text-2xl text-orange-800">

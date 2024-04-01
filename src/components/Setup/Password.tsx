@@ -1,7 +1,6 @@
 import { CardFooter, Button, Input, Link } from "@nextui-org/react";
 import React, { SetStateAction, useMemo, useState} from "react";
 import { validatePassword } from "../../utils/utils";
-import { SavePassword } from "../../storage/passwordStorage";
 import { createAccount } from "../../services/accountService";
 
 type Props = {
@@ -19,7 +18,6 @@ export const Password: React.FC<Props> = ({setMnemonic,setPassword,goNext}) => {
     const HandleContinueOnClick = async() => {
         setLoading(true)
         let account = await createAccount();
-        SavePassword(password)
         setPassword(password)
         setMnemonic(account)
         setLoading(false)

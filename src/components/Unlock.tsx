@@ -17,7 +17,7 @@ export const Unlock = () => {
     const [show] = useState(false);
 
     const Aceptar = async() => {
-        if(account && await VerifyPassword(account,password))
+        if(account && (await VerifyPassword(account,password)))
         {
             let newAccount = structuredClone(account)
             newAccount.hasPass.value = true
