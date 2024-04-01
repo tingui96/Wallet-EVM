@@ -44,10 +44,10 @@ export const RPC = () => {
                 <Input type="text" isRequired label="URL" value={newRPC} onChange={(e) => setNewRpc(e.target.value)} />
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button className="rounded-full" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" 
+                <Button className="btn-gradient text-white rounded-full" 
                     onClick={() => {
                         addRPC({name:newNme,url:newRPC, tokenList:[]});
                         setNewRpc('');

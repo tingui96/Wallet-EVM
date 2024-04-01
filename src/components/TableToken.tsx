@@ -26,7 +26,7 @@ export const TableToken: React.FC = () => {
         }
       }
       fetchBalanceToken()
-    },[account,defaultRPC])
+    },[account,defaultRPC,rpcs])
 
     return (
         <Table aria-label="token list"

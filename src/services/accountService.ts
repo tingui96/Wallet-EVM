@@ -62,12 +62,12 @@ export const VerifyPassword = async(account:Account,password:string) => {
 }
 
 export const SendToken = async(account:Account,password:string,rpc:RPC,token:Token,recipientAddress:string,cantidad:string) => {
-    const provider = new ethers.JsonRpcProvider(rpc.url)
-    const keystore = await decryptKeystoreJson(JSON.stringify(account.keystore),password)
-    const wallet = new ethers.Wallet(keystore.privateKey, provider);
-    const erc20Contract = new Contract(token.address,ABI,wallet)
-    const amount = ethers.parseUnits(cantidad, ethers.toBigInt(token.decimals));
     try {
+        const provider = new ethers.JsonRpcProvider(rpc.url)
+        const keystore = await decryptKeystoreJson(JSON.stringify(account.keystore),password)
+        const wallet = new ethers.Wallet(keystore.privateKey, provider);
+        const erc20Contract = new Contract(token.address,ABI,wallet)
+        const amount = ethers.parseUnits(cantidad, ethers.toBigInt(token.decimals));
         const tx = await erc20Contract.transfer(recipientAddress, amount);
         await tx.wait(); // Espera a que la transacción se confirme
         return {response:true,tx:tx}

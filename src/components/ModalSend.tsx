@@ -23,41 +23,29 @@ export const ModalSend :React.FC<Props> = ({isOpen,onClose,token,account}) => {
 
     const HandleOnSendClick = () => {
         setLoading(true)
-        try{
-            const response = SendToken(account,unlock,rpcs[defaultRPC],token,address,cantidad)
-            setLoading(false)
-            onClose() 
-            response.then(res => {
-                toast({
-                    title: 'Transferencia enviada',
-                    description: 'Tx:'+ res.tx.hash,
-                    status: 'success',
-                    duration: 3000,
-                    isClosable: true
-                  })
-            }).catch(err => {
-                toast({
-                    title: 'Error',
-                    description: err,
-                    status: 'error',
-                    duration: 3000,
-                    isClosable: true
-                  })
-            })
-        }
-        catch(err){
-            setLoading(false)
-            onClose()
+  
+        const response = SendToken(account,unlock,rpcs[defaultRPC],token,address,cantidad)
+        setLoading(false)
+        onClose() 
+        response.then(res => {
+            if(res.response)
             toast({
-                title: 'Error',
-                description: 'Hubo un error en la transferencia',
-                status: 'error',
+                title: 'Transferencia enviada',
+                description: 'Tx:'+ res.tx.hash,
+                status: 'success',
                 duration: 3000,
                 isClosable: true
-              })     
-        }
+              })
+              else
+                toast({
+                  title: 'Ocurrio un error',
+                  description: 'Tx:'+ res.tx,
+                  status: 'error',
+                  duration: 3000,
+                  isClosable: true
+                })
+        })
     }
-
     return(<>
     <Modal className="p-3" isOpen={isOpen} onClose={onClose}>
         <ModalContent>
@@ -71,7 +59,7 @@ export const ModalSend :React.FC<Props> = ({isOpen,onClose,token,account}) => {
                   isInvalid={!IsValidAddress(address)}/>
                 <Input isRequired label="Cantidad" type="number"
                   value={cantidad}
-                  onChange={(e) => setCantidad(e.target.value)}/>
+                  onChange={(e) => {setCantidad(e.target.value)}}/>
                 <Input isRequired type="password" label="Password"
                   value={unlock} onChange={(e)=>setUnlock(e.target.value)}/>
             </ModalBody>
