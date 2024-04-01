@@ -5,7 +5,7 @@ import { Button} from "@nextui-org/react"
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { useAccount } from "../store/useAccount"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { getBalance } from "../services/accountService";
 import { useRPC } from "../store/useRPC";
 
@@ -13,17 +13,8 @@ export const AccountData = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { account } = useAccount()
     const [balance, setBalance] = useState<string>()
-    const { defaultRPC } = useRPC()
-    useEffect(() => {
-        async function fetchBalance() {
-            if(account)
-            return await getBalance(defaultRPC,account.keystore.address)
-        }
-        fetchBalance().then(res => {
-           setBalance(res);
-        })
-        
-    },[account])
+    const { defaultRPC, rpcs } = useRPC()
+    if(account) getBalance(rpcs[defaultRPC],account.keystore.address).then(res => {setBalance(res)})
     return(
     <>
         <div className="flex justify-center justify-items-center gap-1 p-1">

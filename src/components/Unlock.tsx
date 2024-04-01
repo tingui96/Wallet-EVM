@@ -1,14 +1,12 @@
 import { useToast} from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import { useAccount } from "../store/useAccount";
-import { GetPassWordHash } from "../storage/passwordStorage";
-import { calcularSHA256 } from "../utils/utils";
 import { SaveAccount } from "../storage/accountStorage";
 import { Card, CardBody, CardHeader, CardFooter, Input, Button } from "@nextui-org/react";
+import { VerifyPassword } from "../services/accountService";
 
 export const Unlock = () => {
     const {account,setAccount} = useAccount()
-    const hashedPass = GetPassWordHash()
     const [password,setPassword] = useState('');
     const toast = useToast();
     //variables para guardar las Llaves
@@ -18,14 +16,14 @@ export const Unlock = () => {
     };
     const [show] = useState(false);
 
-    const Aceptar = () => {
-        const newHashedPass = calcularSHA256(password)
-        if(newHashedPass === hashedPass && account)
+    const Aceptar = async() => {
+        if(account && await VerifyPassword(account,password))
         {
             let newAccount = structuredClone(account)
             newAccount.hasPass.value = true
             SaveAccount(newAccount)
             setAccount(newAccount)
+            setPassword('')
         }
         else
         {

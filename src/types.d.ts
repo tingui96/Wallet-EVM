@@ -17,22 +17,32 @@ interface AccountState {
 }
 
 interface RpcState {
-    defaultRPC : string
-    rpcs: string[]
+    defaultRPC : number
+    rpcs: RPC[]
     selectRPC: (index:number) => void
-    addRPC: (url:string) => void
+    addRPC: (rpc:RPC) => void
     removeRPC: (index: number) => void
+    updateTokenList: (newTokenList:RPC[]) => void
+    addToken: (token:Token) => void
+    removeToken: (index: number) => void
 }
 
 interface TokenState {
     tokenList: Token[]
+    updateTokenList: (newTokenList:Token[]) => void
     addToken: (token:Token) => void
     removeToken: (index: number) => void
 }
 
 type RPC = {
-    defaultRPC : string
-    rpcs: string[]
+    name: string
+    url: string
+    tokenList: Token[]
+}
+
+type RpcType = {
+    defaultRPC : number
+    rpcs: RPC[]
 }
 
 export interface Token {

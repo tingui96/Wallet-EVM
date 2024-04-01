@@ -1,31 +1,33 @@
 import { sha256 } from "ethers"
-import { Token } from "../types"
+import { RPC, Token } from "../types"
+import { hexRegex } from "../const"
 
-export const addToTokens = (tokenList:Token[],token:Token):Token[] => {
-    const newList = structuredClone(tokenList)
-    newList.push(token)
+export const addToTokens = (rpcs:RPC[],defaultRPC:number,token:Token):RPC[] => {
+    const newList = structuredClone(rpcs)
+    newList[defaultRPC].tokenList.push(token)
     return newList
 }
-export const removeToken = (tokenList:Token[],index:number):Token[] => {
-    const newList = structuredClone(tokenList)
-    newList.splice(index,1)
+export const removeToken = (rpcs:RPC[],defaultRPC:number,index:number):RPC[] => {
+    const newList = structuredClone(rpcs)
+    newList[defaultRPC].tokenList.splice(index,1)
     return newList
 }
 
-export const addToRPCs = (rpcs:string[],url:string):string[] => {
+export const addToRPCs = (rpcs:RPC[],rpc:RPC):RPC[] => {
     const newRpcs = structuredClone(rpcs)
-    newRpcs.push(url)
+    newRpcs.push(rpc)
     return newRpcs
 }
 
 
-export const removeToRPCs = (rpcs:string[],index:number):string[] => {
+export const removeToRPCs = (rpcs:RPC[],index:number):RPC[] => {
     const newRpcs = structuredClone(rpcs)
     newRpcs.splice(index,1)
     return newRpcs
 }
-export const verifyRemoveDefault = (rpcs:string[],index:number, value:string) => {
-    if(rpcs[index] === value) return rpcs[0]
+export const verifyRemoveDefault = (defaultRPC:number,index:number) :number => {
+    if(defaultRPC === index) return 0
+    else return defaultRPC
 }
 
 export const validatePassword = (password:string,confirmPassword:string) => password === confirmPassword
@@ -33,4 +35,19 @@ export const validatePassword = (password:string,confirmPassword:string) => pass
 export function calcularSHA256(data:string) {
     const hash = sha256('0x'+ data);
     return hash
+}
+
+export function IsValidAddress(address:string)
+{
+    if (!address.startsWith("0x")) {
+        return false;
+    }
+    if (address.length !== 42) {
+        return false;
+    }
+    
+    if (!hexRegex.test(address)) {
+        return false;
+    }
+    return true;
 }

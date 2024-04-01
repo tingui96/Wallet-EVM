@@ -1,22 +1,22 @@
-import { defaultRPC } from "../const"
-import { RPC } from "../types"
+import { defaultRPCs } from "../const"
+import { RpcType } from "../types"
 
-export const GetRPCs = ():RPC => {
+export const GetRPCs = ():RpcType => {
     const rpc = localStorage.getItem('rpc')
-    const result:RPC = (rpc) ? JSON.parse(rpc) : defaultRPC
+    const result:RpcType = (rpc) ? JSON.parse(rpc) : { defaultRPC:0, rpcs:defaultRPCs}
     return result
 }
-export const SaveRPCS = (rpc: RPC) => {
+export const SaveRPCS = (rpc: RpcType) => {
     let newRpc = structuredClone(rpc)
-    let index = rpc.rpcs.lastIndexOf(rpc.defaultRPC)
-    if(index === -1) newRpc.defaultRPC = rpc.rpcs[0]
+    if(newRpc.defaultRPC === -1 && newRpc.rpcs.length > 0) newRpc.defaultRPC = 0
+    else if (newRpc.rpcs.length === 0) newRpc.defaultRPC = -1
     localStorage.setItem('rpc',JSON.stringify(newRpc))
     return rpc.rpcs
 }
 
-export const SaveDefaultRPCS = (rpc: RPC,index: number) => {
+export const SaveDefaultRPCS = (rpc: RpcType,index: number) => {
     let newRPC = structuredClone(rpc)
-    newRPC.defaultRPC = newRPC.rpcs[index]
+    newRPC.defaultRPC = index
     localStorage.setItem('rpc',JSON.stringify(newRPC))
     return newRPC.defaultRPC
 }

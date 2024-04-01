@@ -1,6 +1,6 @@
 import { create } from "zustand"
-import { RpcState } from "../types"
-import { addToRPCs, removeToRPCs, verifyRemoveDefault } from "../utils/utils"
+import { RPC, RpcState, Token } from "../types"
+import { addToRPCs, addToTokens, removeToRPCs, removeToken, verifyRemoveDefault } from "../utils/utils"
 import { useShallow } from "zustand/react/shallow"
 import { GetRPCs,SaveDefaultRPCS,SaveRPCS } from "../storage/rpcStorage"
 
@@ -18,23 +18,40 @@ const rpcStore = create<RpcState>((set) => ({
                 ,index)
         }))
     },
-    addRPC: (url:string) => {
+    addRPC: (rpc:RPC) => {
         set((state) => ({
             ...state,
             rpcs: SaveRPCS({
                     defaultRPC:state.defaultRPC,
-                    rpcs:addToRPCs(state.rpcs,url)
+                    rpcs:addToRPCs(state.rpcs,rpc)
                 })
         }))
     },
     removeRPC: (index:number) => {
         set((state) => ({
             ...state,
-            defaultRPC: verifyRemoveDefault(state.rpcs,index,state.defaultRPC),
+            defaultRPC: verifyRemoveDefault(state.defaultRPC,index),
             rpcs: SaveRPCS({
-                defaultRPC: state.defaultRPC,
-                rpcs: removeToRPCs(state.rpcs,index)
-            }) 
+                defaultRPC:verifyRemoveDefault(state.defaultRPC,index) ,
+                rpcs: removeToRPCs(state.rpcs,index)}) 
+        }))
+    },
+    updateTokenList: (newRPCList:RPC[]) => {
+        set((state) => ({
+            ...state,
+            rpcs: SaveRPCS({defaultRPC:state.defaultRPC, rpcs:newRPCList})
+        }))
+    },
+    addToken: (token:Token) => {
+        set((state) => ({
+            ...state,
+            rpcs: SaveRPCS({defaultRPC:state.defaultRPC,rpcs: addToTokens(state.rpcs,state.defaultRPC,token)})
+        }))
+    },
+    removeToken: (index:number) => {
+        set((state) => ({
+            ...state,
+            rpcs: SaveRPCS({defaultRPC:state.defaultRPC,rpcs:removeToken(state.rpcs,state.defaultRPC,index)})
         }))
     }
 }))
@@ -47,5 +64,8 @@ export function useRPC() {
             rpcs: state.rpcs,
             selectRPC: state.selectRPC,
             addRPC: state.addRPC,
-            removeRPC: state.removeRPC
+            removeRPC: state.removeRPC,
+            updateTokenList: state.updateTokenList,
+            addToken: state.addToken,
+            removeToken: state.removeToken
         })))}

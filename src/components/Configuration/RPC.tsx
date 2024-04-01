@@ -8,8 +8,9 @@ export const RPC = () => {
     const {defaultRPC,rpcs,selectRPC,addRPC,removeRPC} = useRPC()
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [newRPC,setNewRpc] = useState('')
+    const [newNme,setNewName] = useState('')
     const index = useMemo(() => {
-       let newIndex = rpcs.lastIndexOf(defaultRPC)
+       let newIndex = defaultRPC
        return newIndex
     },[defaultRPC,rpcs]) 
     
@@ -23,7 +24,7 @@ export const RPC = () => {
             rpcs?.map((value,i) => (
                 <div className="flex justify-between gap-2" key={i}>
                     <Checkbox className="font-mono text-tiny" isSelected={i===index}
-                     onClick={() => selectRPC(i)} radius="full">{value}</Checkbox>
+                     onClick={() => selectRPC(i)} radius="full">{value.name}</Checkbox>
                     { i!==0 && i!==1 && <Button className="bg-foreground-20 text-red-700" 
                         onClick={() => removeRPC(i)} isIconOnly>
                         <DeleteOutlineIcon/></Button>}
@@ -39,7 +40,8 @@ export const RPC = () => {
             <>
               <ModalHeader className="flex flex-col gap-1">Agregar RPC</ModalHeader>
               <ModalBody>
-                <Input type="text" label="RPC" value={newRPC} onChange={(e) => setNewRpc(e.target.value)} />
+                <Input type="text" isRequired label="Nombre" value={newNme} onChange={(e) => setNewName(e.target.value)}/>
+                <Input type="text" isRequired label="URL" value={newRPC} onChange={(e) => setNewRpc(e.target.value)} />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
@@ -47,7 +49,7 @@ export const RPC = () => {
                 </Button>
                 <Button color="primary" 
                     onClick={() => {
-                        addRPC(newRPC);
+                        addRPC({name:newNme,url:newRPC, tokenList:[]});
                         setNewRpc('');
                         onClose()}}>
                   Agregar

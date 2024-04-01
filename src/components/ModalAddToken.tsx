@@ -14,11 +14,11 @@ type Props = {
 export const ModalAddToken: React.FC<Props> = ({isOpen,onClose,addToken}) => {
     const {account} = useAccount()
     const [contractToAdd, setContractToAdd] = useState<Token>({address: '', simbol: '', decimals:'', balance: '' });
-    const {defaultRPC} = useRPC()
+    const {defaultRPC,rpcs} = useRPC()
 
     useEffect(() => {
         async function fetchToken() {
-            const token = await getToken(defaultRPC,contractToAdd.address,account?.keystore.address)
+            const token = await getToken(rpcs[defaultRPC],contractToAdd.address,account?.keystore.address)
             if(token) setContractToAdd(token)
         }
         fetchToken()
