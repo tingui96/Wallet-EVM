@@ -5,6 +5,7 @@ import { useRPC } from "../store/useRPC"
 import { Account, Token } from "../types"
 import { SendToken, sendEth } from "../services/accountService"
 import { useToast } from "@chakra-ui/react"
+import { usePending } from "../store/usePending"
 
 type Props = {
     isOpen: boolean
@@ -17,6 +18,7 @@ export const ModalSend :React.FC<Props> = ({isOpen,onClose,token,account}) => {
     const [address,setAddress] = useState('')
     const [cantidad,setCantidad] = useState('')
     const {defaultRPC,rpcs} = useRPC()
+    const { AnyPending , NothingPending} = usePending()
     const [loading,setLoading] = useState(false)
     const [unlock,setUnlock] = useState('')
     const toast = useToast()
@@ -26,6 +28,7 @@ export const ModalSend :React.FC<Props> = ({isOpen,onClose,token,account}) => {
         const response = token ? SendToken(account,unlock,rpcs[defaultRPC],token,address,cantidad)
             :   sendEth(account,unlock,rpcs[defaultRPC],address,cantidad) 
         setLoading(false)
+        AnyPending()
         onClose() 
         response.then(res => {
             if(res.response)
@@ -44,6 +47,7 @@ export const ModalSend :React.FC<Props> = ({isOpen,onClose,token,account}) => {
                   duration: 3000,
                   isClosable: true
                 })
+            NothingPending()
         })
     }
     return(<>
