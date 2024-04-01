@@ -3,7 +3,7 @@ import { ClearAccount, GetAccount, SaveAccount } from "../storage/accountStorage
 import { useShallow } from "zustand/react/shallow";
 import { Account, AccountState } from "../types";
 
-const defaultAccount = await GetAccount()
+const defaultAccount = GetAccount()
 
 const accountStore = create<AccountState>((set) => ({
     account: defaultAccount,
