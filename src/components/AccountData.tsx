@@ -8,9 +8,11 @@ import { useAccount } from "../store/useAccount"
 import { useState } from "react"
 import { getBalance } from "../services/accountService";
 import { useRPC } from "../store/useRPC";
+import { ModalSend } from "./ModalSend";
 
 export const AccountData = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen:isOpenSend, onOpen:onOpenSend, onClose:onCloseSend } = useDisclosure();
     const { account } = useAccount()
     const [balance, setBalance] = useState<string>()
     const { defaultRPC, rpcs } = useRPC()
@@ -22,8 +24,9 @@ export const AccountData = () => {
         </div>
         <div className="flex justify-center gap-3 p-3">
             <Button isIconOnly className="max-w-2 rounded-full bg-cyan-950 text-white shadow-lg" onClick={onOpen}><GetAppOutlinedIcon fontSize="small"/></Button>
-            <Button isIconOnly className="max-w-2 rounded-full bg-cyan-950 text-white shadow-lg" onClick={onOpen}><SendOutlinedIcon fontSize="small"/></Button>
+            <Button isIconOnly className="max-w-2 rounded-full bg-cyan-950 text-white shadow-lg" onClick={onOpenSend}><SendOutlinedIcon fontSize="small"/></Button>
             <ModalRecive isOpen={isOpen} onClose={onClose}/>
+            { account && <ModalSend isOpen={isOpenSend} onClose={onCloseSend} account={account} token={null}/> }
         </div>
         <InputGroup>
             <TableToken/>

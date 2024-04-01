@@ -3,13 +3,13 @@ import { useState } from "react"
 import { IsValidAddress } from "../utils/utils"
 import { useRPC } from "../store/useRPC"
 import { Account, Token } from "../types"
-import { SendToken } from "../services/accountService"
+import { SendToken, sendEth } from "../services/accountService"
 import { useToast } from "@chakra-ui/react"
 
 type Props = {
     isOpen: boolean
     onClose: () => void
-    token: Token
+    token: Token|null
     account: Account
   }
 
@@ -22,9 +22,9 @@ export const ModalSend :React.FC<Props> = ({isOpen,onClose,token,account}) => {
     const toast = useToast()
 
     const HandleOnSendClick = () => {
-        setLoading(true)
-  
-        const response = SendToken(account,unlock,rpcs[defaultRPC],token,address,cantidad)
+        setLoading(true) 
+        const response = token ? SendToken(account,unlock,rpcs[defaultRPC],token,address,cantidad)
+            :   sendEth(account,unlock,rpcs[defaultRPC],address,cantidad) 
         setLoading(false)
         onClose() 
         response.then(res => {
@@ -50,7 +50,7 @@ export const ModalSend :React.FC<Props> = ({isOpen,onClose,token,account}) => {
     <Modal className="p-3" isOpen={isOpen} onClose={onClose}>
         <ModalContent>
             <ModalHeader className="flex justify-center text-xl font-bold text-orange-700">
-                Enviar {token.simbol}
+                Enviar {token?token.simbol:'ETH'}
             </ModalHeader>
             <ModalBody>
                 <Input label="Enviar a ..." type="text" value={address}

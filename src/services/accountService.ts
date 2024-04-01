@@ -71,8 +71,25 @@ export const SendToken = async(account:Account,password:string,rpc:RPC,token:Tok
         const tx = await erc20Contract.transfer(recipientAddress, amount);
         await tx.wait(); // Espera a que la transacción se confirme
         return {response:true,tx:tx}
+    } 
+    catch (error) {
+        return {response:false,tx:'Error al transferir' + error}
+    }  
+}
+
+export async function sendEth(account:Account,password:string,rpc:RPC, recipientAddress:string, cantidad:string) {
+    try {
+        const provider = new ethers.JsonRpcProvider(rpc.url);
+        const keystore = await decryptKeystoreJson(JSON.stringify(account.keystore),password)
+        const wallet = new ethers.Wallet(keystore.privateKey, provider);
+        const amount = ethers.parseEther(cantidad);
+        const tx = await wallet.sendTransaction({
+            to: recipientAddress,
+            value: amount,
+        });
+        await tx.wait(); // Espera a que la transacción se confirme
+        return {response:true,tx:tx};
     } catch (error) {
         return {response:false,tx:'Error al transferir' + error}
     }
-    
 }
