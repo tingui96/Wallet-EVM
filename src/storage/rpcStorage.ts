@@ -20,3 +20,8 @@ export const SaveDefaultRPCS = (rpc: RpcType,index: number) => {
     localStorage.setItem('rpc',JSON.stringify(newRPC))
     return newRPC.defaultRPC
 }
+
+export const ClearRPCs = () => {
+    localStorage.removeItem('rpc')
+    return { defaultRPC:0, rpcs:defaultRPCs}
+}

@@ -35,26 +35,20 @@ export const getToken = async(rpc:RPC,contract:string,address:string|undefined) 
         return null
     }
 }
-export const fetchAllTokenBalance = async(defaultRPC:number,rpcs:RPC[],address:string) => {
-    let newTokenList = structuredClone(rpcs)
-    for (let index = 0; index < newTokenList[defaultRPC].tokenList.length; index++) {
-        newTokenList[defaultRPC].tokenList[index].balance = await getTokenBalance(newTokenList[defaultRPC],newTokenList[defaultRPC].tokenList[index].address,address)
-    }
-    return newTokenList
-}
 
-export const getTokenBalance = async(rpc:RPC,contract:string,address:string|undefined) => {
+export const getTokenBalance = async(rpc:RPC,contract:string,address:string|undefined): Promise<string> => {
     const provider = new ethers.JsonRpcProvider(rpc.url)
     try{
         const token = new Contract(contract,ABI,provider)
-        const balanceOf = await token.balanceOf('0x'+ address)
-        
+        const balanceOf = await token.balanceOf('0x' + address)      
         return balanceOf.toString() 
     }
     catch(err){
-        return null
+        console.log(err)
+        return '0'
     }
 }
+
 export const VerifyPassword = async(account:Account,password:string) => {
     let fin = 0
     await decryptKeystoreJson(JSON.stringify(account.keystore),password,(a) => fin = a)

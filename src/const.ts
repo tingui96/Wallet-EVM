@@ -1,10 +1,10 @@
 import { RPC } from "./types";
 
 
-export const defaultRPC:RPC = { name: 'Ethereum' , url: 'https://ethereum-rpc.publicnode.com', tokenList: [] }
+export const defaultRPC:RPC = { name: 'Ethereum' , url: 'https://ethereum-rpc.publicnode.com' }
 
-export const defaultRPCs:RPC[] = [{ name: 'Ethereum' , url: 'https://ethereum-rpc.publicnode.com', tokenList: [] },
-{ name: 'Sepolia', url: 'https://sepolia.infura.io/v3/956866d0afef41b99580468d27c7976d', tokenList: []}]
+export const defaultRPCs:RPC[] = [{ name: 'Ethereum' , url: 'https://ethereum-rpc.publicnode.com' },
+{ name: 'Sepolia', url: 'https://sepolia.infura.io/v3/956866d0afef41b99580468d27c7976d'}]
 
 export const Default_MIN_Unlock = 15
 

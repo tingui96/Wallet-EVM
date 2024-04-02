@@ -10,11 +10,11 @@ import { useRPC } from "../store/useRPC";
 
 export const Main = () => {
   const { account, ClearAccount } = useAccount()
-  const { clearRPC } = useRPC()
+  const { ClearRPC } = useRPC()
   const {pending} = usePending()
   const onCloseAll = () => {
     ClearAccount()
-    clearRPC()
+    ClearRPC()
   }
   return(
   <>

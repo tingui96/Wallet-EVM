@@ -7,27 +7,65 @@ import { ModalSend } from "./ModalSend";
 import { useEffect, useState } from "react";
 import { Token } from "../types";
 import { useAccount } from "../store/useAccount";
-import { fetchAllTokenBalance } from "../services/accountService";
 import { useRPC } from "../store/useRPC";
+import { ethers } from "ethers";
+import { ABI } from "../const";
+import { getTokenBalance } from "../services/accountService";
+import { Navigate } from "react-router-dom";
 
 export const TableToken: React.FC = () => {
     const { account } = useAccount()
-    const {defaultRPC,rpcs,updateTokenList,addToken,removeToken} = useRPC()
+    const {defaultRPC,tokenList,rpcs,addToken,updateTokenBalance,removeToken} = useRPC()
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen:isOpenSend, onOpen:onOpenSend, onClose:onCloseSend } = useDisclosure();
     const [token,setToken] = useState<Token>()
-    useEffect(()=>{
-      async function fetchBalanceToken()
-      {
-        if(account && rpcs[defaultRPC].tokenList)
-        {
-          fetchAllTokenBalance(defaultRPC,rpcs,account.keystore.address).then(res => updateTokenList(res))
-        }
-      }
-      fetchBalanceToken()
-    },[account,defaultRPC])
 
+    useEffect(() => {
+      tokenList[defaultRPC].forEach(async (token) => {
+        try {
+            let balance = await getTokenBalance(rpcs[defaultRPC],token.address,account?.keystore.address)
+            token.balance = balance
+            let newToken = structuredClone(token)
+            newToken.balance = balance
+            updateTokenBalance(newToken)
+          }       
+          catch (error) {
+          console.error(`Error al crear instancia de contrato para ${token.address}:`, error);
+        }
+      })
+    },[])
+
+    useEffect(() => {
+      if(!tokenList[defaultRPC] || tokenList[defaultRPC].length === 0) return
+      let rpc = rpcs[defaultRPC]
+      const provider = new ethers.JsonRpcProvider(rpcs[defaultRPC].url); 
+      tokenList[defaultRPC].forEach(async (token) => {
+        try {
+          const contract = new ethers.Contract(token.address, ABI, provider);
+          const transferEvent = contract.filters.Transfer()
+          contract.addListener(transferEvent, async() => {
+            let balance = await getTokenBalance(rpc,token.address,account?.keystore.address)
+            token.balance = balance
+            let newToken = structuredClone(token)
+            newToken.balance = balance
+            updateTokenBalance(newToken)
+             })          
+        } catch (error) {
+          console.error(`Error al crear instancia de contrato para ${token.address}:`, error);
+        }
+      });
+  
+      return () => {
+        tokenList[defaultRPC].forEach((token) => {
+          const contract = new ethers.Contract(token.address, ABI, provider);
+          const transferEvent = contract.filters.Transfer()
+          contract.removeAllListeners(transferEvent);
+        });
+      };
+    }, []);
     return (
+      <>
+      {account&& <Navigate to="/"/>}
         <Table aria-label="token list"
           bottomContent={
             <div className="flex justify-center p-3">
@@ -43,11 +81,10 @@ export const TableToken: React.FC = () => {
              <TableColumn >cantidad</TableColumn>
              <TableColumn>Enviar</TableColumn>
              <TableColumn>Quitar</TableColumn>
-             {/*<Th>Pendientes de aceptar</Th>*/}
          </TableHeader>
          <TableBody>
-             {rpcs[defaultRPC].tokenList?.map((element,key) => (
-                   <TableRow key={key}>
+             {tokenList[defaultRPC]?.map((element,key) => (
+               <TableRow key={key}>
                       <TableCell>{element.simbol}</TableCell>
                       <TableCell width={300}>{ (Number.parseInt(element.balance) / Math.pow(10,Number.parseInt(element.decimals))) }</TableCell>
                       <TableCell>    
@@ -66,5 +103,6 @@ export const TableToken: React.FC = () => {
                 ))}
          </TableBody>  
        </Table>
+      </>
     )
 }

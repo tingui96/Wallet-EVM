@@ -1,16 +1,28 @@
 import { sha256 } from "ethers"
-import { RPC, Token } from "../types"
+import { RPC, Token, TokensList } from "../types"
 import { hexRegex } from "../const"
 
-export const addToTokens = (rpcs:RPC[],defaultRPC:number,token:Token):RPC[] => {
-    const newList = structuredClone(rpcs)
-    newList[defaultRPC].tokenList.push(token)
+export const addToTokens = (tokenList:TokensList[],defaultRPC:number,token:Token):TokensList[] => {
+    const newList = structuredClone(tokenList)
+    newList[defaultRPC].push(token)
     return newList
 }
-export const removeToken = (rpcs:RPC[],defaultRPC:number,index:number):RPC[] => {
-    const newList = structuredClone(rpcs)
-    newList[defaultRPC].tokenList.splice(index,1)
+export const removeToken = (tokenList:TokensList[],defaultRPC:number,index:number):TokensList[] => {
+    const newList = structuredClone(tokenList)
+    newList[defaultRPC].splice(index,1)
     return newList
+}
+
+export const updateTokenBalance = (tokenList:TokensList[],defaultRPC:number,token:Token) => {
+    let newRPCList = structuredClone(tokenList)
+    for (let i = 0; i < newRPCList[defaultRPC].length; i++) {
+        const element = newRPCList[defaultRPC][i];
+        if(element.address === token.address)
+        {
+            newRPCList[defaultRPC][i].balance = token.balance
+        }  
+    }
+    return newRPCList
 }
 
 export const addToRPCs = (rpcs:RPC[],rpc:RPC):RPC[] => {
@@ -18,7 +30,16 @@ export const addToRPCs = (rpcs:RPC[],rpc:RPC):RPC[] => {
     newRpcs.push(rpc)
     return newRpcs
 }
-
+export const addTokenList = (tokenList:TokensList[]):TokensList[] => {
+    const newRpcs = structuredClone(tokenList)
+    newRpcs.push([])
+    return newRpcs
+}
+export const removeTokenfromTokenList = (tokenList:TokensList[],index:number):TokensList[] => {
+    const newRpcs = structuredClone(tokenList)
+    newRpcs.splice(index,1)
+    return newRpcs
+}
 
 export const removeToRPCs = (rpcs:RPC[],index:number):RPC[] => {
     const newRpcs = structuredClone(rpcs)
