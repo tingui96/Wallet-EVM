@@ -49,7 +49,7 @@ export const RPC = () => {
                 </Button>
                 <Button className="btn-gradient text-white rounded-full" 
                     onClick={() => {
-                        addRPC({name:newNme,url:newRPC, tokenList:[]});
+                        addRPC({name:newNme,url:newRPC});
                         setNewRpc('');
                         onClose()}}>
                   Agregar
