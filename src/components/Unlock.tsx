@@ -17,15 +17,17 @@ export const Unlock = () => {
     const [show] = useState(false);
 
     const Aceptar = async() => {
-        if(account && (await VerifyPassword(account,password)))
-        {
-            let newAccount = structuredClone(account)
-            newAccount.hasPass.value = true
-            SaveAccount(newAccount)
-            setAccount(newAccount)
-            setPassword('')
-        }
-        else
+        try{
+            if(account && (await VerifyPassword(account,password)))
+            {
+                let newAccount = structuredClone(account)
+                newAccount.hasPass.value = true
+                SaveAccount(newAccount)
+                setAccount(newAccount)
+                setPassword('')
+            }
+        }    
+        catch
         {
             toast({
                 title: 'Error',

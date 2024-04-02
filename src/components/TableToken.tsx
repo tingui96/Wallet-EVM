@@ -21,12 +21,11 @@ export const TableToken: React.FC = () => {
       {
         if(account && rpcs[defaultRPC].tokenList)
         {
-          let newtokenList = await fetchAllTokenBalance(defaultRPC,rpcs,account.keystore.address)
-          updateTokenList(newtokenList)
+          fetchAllTokenBalance(defaultRPC,rpcs,account.keystore.address).then(res => updateTokenList(res))
         }
       }
       fetchBalanceToken()
-    },[account,defaultRPC,rpcs])
+    },[account,defaultRPC])
 
     return (
         <Table aria-label="token list"
