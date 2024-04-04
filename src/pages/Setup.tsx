@@ -26,8 +26,8 @@ export const Setup = () => {
         return (
     <>
     {account && <Navigate to='/'/>}
-        <Card className="min-w-[400px]">
-            <CardHeader>
+        <Card className="flex p-3" >
+            <CardHeader className="flex justify-items-center">
             <Stepper index={activeStep}>
             {steps.map((step, index) => (
                 <Step key={index}>
