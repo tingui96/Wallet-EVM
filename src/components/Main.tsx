@@ -2,7 +2,7 @@ import { SettingsIcon } from "@chakra-ui/icons";
 import { useAccount } from "../store/useAccount";
 import { AccountData } from "./AccountData";
 import { Navigate } from "react-router-dom";
-import { Button, Card, CardHeader, CardBody, CardFooter, Link } from "@nextui-org/react";
+import { Button, Card, CardHeader, CardBody, CardFooter, Link, Spinner } from "@nextui-org/react";
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import { FooterPending } from "./FooterPending";
 import { usePending } from "../store/usePending";
@@ -45,7 +45,11 @@ export const Main = () => {
           </CardFooter>
         </Card>
       </div>
-      { pending && <FooterPending/>}
+      { pending &&
+        <FooterPending> 
+          <p className='text text-sm font-bold'>Transferencia</p>
+          <p className='text text-sm font-bold'>Pendiente</p><Spinner size='sm'/>
+        </FooterPending>}
     </>
   );
 }
