@@ -45,10 +45,10 @@ export const Main = () => {
           </CardFooter>
         </Card>
       </div>
-      { pending &&
+      { pending !== 0 &&
         <FooterPending> 
-          <p className='text text-sm font-bold'>Transferencia</p>
-          <p className='text text-sm font-bold'>Pendiente</p><Spinner size='sm'/>
+          <p className='text text-sm font-bold'>{pending} Transferencia(s)</p>
+          <p className='text text-sm font-bold'>Pendiente(s)</p><Spinner size='sm'/>
         </FooterPending>}
     </>
   );
