@@ -12,9 +12,11 @@ import { ethers } from "ethers";
 import { ABI } from "../const";
 import { getTokenBalance } from "../services/accountService";
 import { Navigate } from "react-router-dom";
+import { usePending } from "../store/usePending";
 
 export const TableToken: React.FC = () => {
     const { account } = useAccount()
+    const { pending } = usePending()
     const {defaultRPC,tokenList,rpcs,addToken,updateTokenBalance,removeToken} = useRPC()
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen:isOpenSend, onOpen:onOpenSend, onClose:onCloseSend } = useDisclosure();
@@ -33,7 +35,7 @@ export const TableToken: React.FC = () => {
           console.error(`Error al crear instancia de contrato para ${token.address}:`, error);
         }
       })
-    },[])
+    },[account,defaultRPC,pending])
 
     useEffect(() => {
       if(!tokenList[defaultRPC] || tokenList[defaultRPC].length === 0) return

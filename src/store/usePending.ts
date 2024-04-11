@@ -2,17 +2,17 @@ import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 
 interface PendingStore {
-    pending: boolean
+    pending: number
     AnyPending: () => void
     NothingPending: () => void
 }
 const pendingStore = create<PendingStore>((set) => ({
-    pending: false,
+    pending: 0,
     AnyPending: () => {
-        set({pending : true})
+        set((state) => ({ pending : state.pending + 1}))
     },
     NothingPending: () => {
-        set({pending:false})
+        set((state) => ({ pending : state.pending - 1}))
     }
 }))
 

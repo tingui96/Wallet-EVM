@@ -3,9 +3,8 @@ import { RPC, Token, TokensList } from "../types"
 import { hexRegex } from "../const"
 
 export const addToTokens = (tokenList:TokensList[],defaultRPC:number,token:Token):TokensList[] => {
-    const newList = structuredClone(tokenList)
-    newList[defaultRPC].push(token)
-    return newList
+    tokenList[defaultRPC].push(token)
+    return tokenList
 }
 export const removeToken = (tokenList:TokensList[],defaultRPC:number,index:number):TokensList[] => {
     const newList = structuredClone(tokenList)
@@ -14,37 +13,27 @@ export const removeToken = (tokenList:TokensList[],defaultRPC:number,index:numbe
 }
 
 export const updateTokenBalance = (tokenList:TokensList[],defaultRPC:number,token:Token) => {
-    let newRPCList = structuredClone(tokenList)
-    for (let i = 0; i < newRPCList[defaultRPC].length; i++) {
-        const element = newRPCList[defaultRPC][i];
-        if(element.address === token.address)
-        {
-            newRPCList[defaultRPC][i].balance = token.balance
-        }  
-    }
+    let newRPCList = tokenList[defaultRPC]?.map((value) => {
+        if(value.address === token.address) return token
+        else return value
+    })
     return newRPCList
 }
 
 export const addToRPCs = (rpcs:RPC[],rpc:RPC):RPC[] => {
-    const newRpcs = structuredClone(rpcs)
-    newRpcs.push(rpc)
-    return newRpcs
+    rpcs.push(rpc)
+    return rpcs
 }
 export const addTokenList = (tokenList:TokensList[]):TokensList[] => {
-    const newRpcs = structuredClone(tokenList)
-    newRpcs.push([])
-    return newRpcs
+    tokenList.push([])
+    return tokenList
 }
 export const removeTokenfromTokenList = (tokenList:TokensList[],index:number):TokensList[] => {
-    const newRpcs = structuredClone(tokenList)
-    newRpcs.splice(index,1)
-    return newRpcs
+    return tokenList.splice(index,1)
 }
 
 export const removeToRPCs = (rpcs:RPC[],index:number):RPC[] => {
-    const newRpcs = structuredClone(rpcs)
-    newRpcs.splice(index,1)
-    return newRpcs
+    return rpcs.splice(index,1)
 }
 export const verifyRemoveDefault = (defaultRPC:number,index:number) :number => {
     if(defaultRPC === index) return 0

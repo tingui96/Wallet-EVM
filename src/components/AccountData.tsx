@@ -9,16 +9,18 @@ import { useEffect, useState } from "react"
 import { getBalance } from "../services/accountService";
 import { useRPC } from "../store/useRPC";
 import { ModalSend } from "./ModalSend";
+import { usePending } from "../store/usePending";
 
 export const AccountData = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen:isOpenSend, onOpen:onOpenSend, onClose:onCloseSend } = useDisclosure();
     const { account } = useAccount()
+    const { pending } = usePending()
     const [balance, setBalance] = useState<string>()
     const { defaultRPC, rpcs } = useRPC()
     useEffect(() => {
         if(account) getBalance(rpcs[defaultRPC],account.keystore.address).then(res => {setBalance(res)})
-    },[account,defaultRPC])
+    },[account,defaultRPC,pending])
     return(
     <>
         <div className="flex justify-center justify-items-center gap-1 p-1">
