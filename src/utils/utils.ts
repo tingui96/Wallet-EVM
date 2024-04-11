@@ -13,9 +13,15 @@ export const removeToken = (tokenList:TokensList[],defaultRPC:number,index:numbe
 }
 
 export const updateTokenBalance = (tokenList:TokensList[],defaultRPC:number,token:Token) => {
-    let newRPCList = tokenList[defaultRPC]?.map((value) => {
-        if(value.address === token.address) return token
-        else return value
+    let newRPCList = tokenList.map((element,index) => {
+        if(index === defaultRPC)
+        {
+            return tokenList[defaultRPC].map((value) => {
+                if(value.address === token.address) return token
+                else return value
+            })
+        }
+        else return element
     })
     return newRPCList
 }
