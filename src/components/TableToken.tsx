@@ -86,7 +86,7 @@ export const TableToken: React.FC = () => {
          </TableHeader>
          <TableBody>
              {tokenList[defaultRPC]?.map((element,key) => (
-               <TableRow key={key}>
+               <TableRow key={element.address}>
                       <TableCell>{element.simbol}</TableCell>
                       <TableCell width={300}>{ (Number.parseInt(element.balance) / Math.pow(10,Number.parseInt(element.decimals))) }</TableCell>
                       <TableCell>    

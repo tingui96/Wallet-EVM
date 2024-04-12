@@ -35,11 +35,13 @@ export const addTokenList = (tokenList:TokensList[]):TokensList[] => {
     return tokenList
 }
 export const removeTokenfromTokenList = (tokenList:TokensList[],index:number):TokensList[] => {
-    return tokenList.splice(index,1)
+    tokenList.splice(index,1)
+    return tokenList
 }
 
 export const removeToRPCs = (rpcs:RPC[],index:number):RPC[] => {
-    return rpcs.splice(index,1)
+    rpcs.splice(index,1)
+    return rpcs
 }
 export const verifyRemoveDefault = (defaultRPC:number,index:number) :number => {
     if(defaultRPC === index) return 0
