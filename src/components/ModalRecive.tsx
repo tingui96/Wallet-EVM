@@ -1,8 +1,10 @@
-import { useClipboard } from "@chakra-ui/react"
 import { Button , Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react"
 import { useAccount } from "../store/useAccount"
 import QRCode from "react-qr-code"
-import { CheckIcon, CopyIcon } from "@chakra-ui/icons"
+import CheckIcon from '@mui/icons-material/Check';
+import CopyIcon from '@mui/icons-material/ContentCopy';
+import copy from "copy-to-clipboard"
+import { useState } from "react"
 type Props = {
   isOpen: boolean
   onClose: () => void
@@ -10,7 +12,7 @@ type Props = {
 
 export const ModalRecive: React.FC<Props> = ({isOpen,onClose}) => {
   const { account } = useAccount()
-  const {onCopy ,hasCopied} = useClipboard(account? '0x'+ account.keystore.address: '')
+  const [hasCopied, setHasCopied] = useState(false)
     return(
         <Modal className="p-3" isOpen={isOpen} onClose={onClose}>
           <ModalContent>
@@ -25,7 +27,12 @@ export const ModalRecive: React.FC<Props> = ({isOpen,onClose}) => {
                       <input readOnly aria-label="" className="flex w-full text-center bg-gradient-to-tr from-gray-400 to-gray-600 text-white rounded-l-full" value={'0x' + account?.keystore.address}/>   
                     </div>
                    <div>
-                      <Button className="rounded-r-full bg-gradient-to-t btn-gradient text-white p-3" isIconOnly onClick={onCopy}>
+                      <Button className="rounded-r-full bg-gradient-to-t btn-gradient text-white p-3"
+                       isIconOnly
+                        onClick={() => {
+                          copy(account? '0x'+ account.keystore.address: '')
+                          setHasCopied(true)
+                        }}>
                         { !hasCopied ? <CopyIcon/>:<CheckIcon/>}
                       </Button>
                    </div>
