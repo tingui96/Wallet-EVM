@@ -6,6 +6,7 @@ import { NextUIProvider } from '@nextui-org/react'
 import { Route,Routes, useNavigate } from 'react-router-dom'
 import { Setup } from './pages/Setup'
 import { Settings } from './pages/Settings'
+
 function App() {
   const navigate = useNavigate();
   return (

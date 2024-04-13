@@ -4,11 +4,8 @@ import { Password } from "../components/Setup/Password"
 import { useState } from "react"
 import { Mnemonic } from "../components/Setup/Mnemonic"
 import { Congratz } from "../components/Setup/Congratz"
-import { useAccount } from "../store/useAccount"
-import { Navigate } from "react-router-dom"
 
 export const Setup = () => {
-    const {account} = useAccount()
     const [mnemonic,setMnemonic] = useState('')
     const [password,setPassword] = useState('')
     const steps = [
@@ -25,7 +22,6 @@ export const Setup = () => {
       
         return (
     <>
-    {account && <Navigate to='/'/>}
         <Card className="flex p-3" >
             <CardHeader className="flex justify-items-center">
             <Stepper index={activeStep}>

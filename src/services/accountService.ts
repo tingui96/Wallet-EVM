@@ -9,7 +9,7 @@ export const MnemonicToPrivateKey = (mnemonicPhrase:string) =>{
     return account
 }
 
-export const createAccount = async () => {
+export const createAccount = () => {
     const mnemonic = generateMnemonic()  
     return mnemonic
 }
