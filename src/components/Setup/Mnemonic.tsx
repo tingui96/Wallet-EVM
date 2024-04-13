@@ -1,7 +1,7 @@
 import { Button, CardFooter } from "@nextui-org/react"
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import React, { useMemo, useState } from "react"
-import { useClipboard } from "@chakra-ui/react";
+import copy from 'copy-to-clipboard';
 import { useAccount } from "../../store/useAccount";
 import { createAccount } from "../../services/accountService";
 import { MnemonicToPrivateKey } from "../../services/accountService";
@@ -17,7 +17,6 @@ export const Mnemonic:React.FC<Props> = ({password,goNext}) => {
     const [loading,setLoading] = useState(false)
     const [complete,setComplete] = useState(false)
     const mnemonic = useMemo(() => { return createAccount()},[])
-    const {onCopy} = useClipboard(mnemonic)
     const [words] = useState(mnemonic.split(' '))
     
     const HandleContinueOnClick = () => {
@@ -48,7 +47,7 @@ export const Mnemonic:React.FC<Props> = ({password,goNext}) => {
             <div className="grid col-start-2 justify-center">
                 <Button isIconOnly className="btn-gradient text-white" 
                     onClick={() => {
-                        onCopy()
+                        copy(mnemonic)
                         setComplete(true)
                     }}>
                         <ContentCopyIcon/>
