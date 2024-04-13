@@ -12,8 +12,7 @@ export const Setup = () => {
         { title: 'First', description: 'Password' },
         { title: 'Second', description: 'Save Phrase' },
         { title: 'Third', description: 'Complete' },
-      ]
-      
+      ]    
       
     const { activeStep, goToNext } = useSteps({
           index: 1,
