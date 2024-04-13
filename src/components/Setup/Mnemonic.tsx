@@ -1,25 +1,26 @@
 import { Button, CardFooter } from "@nextui-org/react"
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { useClipboard } from "@chakra-ui/react";
 import { useAccount } from "../../store/useAccount";
+import { createAccount } from "../../services/accountService";
 import { MnemonicToPrivateKey } from "../../services/accountService";
 import { Account } from "../../types";
-import { SaveAccount } from "../../storage/accountStorage";
 
 type Props = {
     mnemonic:string
     password: string
     goNext:() => void
 }
-export const Mnemonic:React.FC<Props> = ({mnemonic,password,goNext}) => {
+export const Mnemonic:React.FC<Props> = ({password,goNext}) => {
     const {setAccount} = useAccount()
     const [loading,setLoading] = useState(false)
     const [complete,setComplete] = useState(false)
-    const [words] = useState(mnemonic.split(' '))
+    const mnemonic = useMemo(() => { return createAccount()},[])
     const {onCopy} = useClipboard(mnemonic)
+    const [words] = useState(mnemonic.split(' '))
     
-    const HandleContinueOnClick = async() => {
+    const HandleContinueOnClick = () => {
         setLoading(true)
         let newAccount = MnemonicToPrivateKey(mnemonic)
         newAccount.encrypt(password).then(res => {
@@ -33,7 +34,7 @@ export const Mnemonic:React.FC<Props> = ({mnemonic,password,goNext}) => {
                     }
                 }
             setAccount(account)
-            SaveAccount(account)
+            setLoading(false)
             goNext()
             })
         }
@@ -47,8 +48,8 @@ export const Mnemonic:React.FC<Props> = ({mnemonic,password,goNext}) => {
             <div className="grid col-start-2 justify-center">
                 <Button isIconOnly className="btn-gradient text-white" 
                     onClick={() => {
-                        setComplete(true)
                         onCopy()
+                        setComplete(true)
                     }}>
                         <ContentCopyIcon/>
                     </Button>
