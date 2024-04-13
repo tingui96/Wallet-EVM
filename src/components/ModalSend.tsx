@@ -6,6 +6,8 @@ import { Account, Token } from "../types"
 import { SendToken, sendEth } from "../services/accountService"
 import { useToast } from "@chakra-ui/react"
 import { usePending } from "../store/usePending"
+import { ModalScanner } from "./ModalScanner"
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 
 type Props = {
     isOpen: boolean
@@ -16,6 +18,7 @@ type Props = {
 
 export const ModalSend :React.FC<Props> = ({isOpen,onClose,token,account}) => {
     const [address,setAddress] = useState('')
+    const [showScanner,setShowScanner] = useState(false)
     const [cantidad,setCantidad] = useState('')
     const {defaultRPC,rpcs} = useRPC()
     const { AnyPending , NothingPending} = usePending()
@@ -56,15 +59,21 @@ export const ModalSend :React.FC<Props> = ({isOpen,onClose,token,account}) => {
             <ModalHeader className="flex justify-center text-xl font-bold text-orange-700">
                 Enviar {token?token.simbol:'ETH'}
             </ModalHeader>
-            <ModalBody>
-                <Input label="Enviar a ..." type="text" value={address}
+            <ModalBody className="grid">
+              <div className="flex justify-items-center gap-1">
+                <Input className="rounded-xl shadow-lg" label="Enviar a ..." type="text" value={address}
                   isRequired
                   onChange={(e) => setAddress(e.target.value)}
-                  isInvalid={!IsValidAddress(address)}/>
-                <Input isRequired label="Cantidad" type="number"
+                  isInvalid={!IsValidAddress(address)} />
+                  <Button isIconOnly className="h-full btn-gradient text-white" onClick={()=> setShowScanner(true)}>
+                    <QrCodeScannerIcon />
+
+                  </Button>
+              </div>          
+                <Input className="rounded-xl shadow-lg" isRequired label="Cantidad" type="number"
                   value={cantidad}
                   onChange={(e) => {setCantidad(e.target.value)}}/>
-                <Input isRequired type="password" label="Password"
+                <Input className="rounded-xl shadow-lg" isRequired type="password" label="Password"
                   value={unlock} onChange={(e)=>setUnlock(e.target.value)}/>
             </ModalBody>
             <ModalFooter className="justify-center">
@@ -75,6 +84,6 @@ export const ModalSend :React.FC<Props> = ({isOpen,onClose,token,account}) => {
             </ModalFooter>
         </ModalContent>
     </Modal>
-    
+    { address === '' && <ModalScanner isOpen={showScanner} onClose={() => setShowScanner(false)} setAddress={setAddress} />}
     </>)
 }
