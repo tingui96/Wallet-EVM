@@ -10,3 +10,8 @@
         @apply bg-gradient-to-tr from-pink-500 to-yellow-500 shadow-lg
     }
 }
+
+body {
+    width: 500px;
+    height: 400px;
+}
