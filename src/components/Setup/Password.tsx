@@ -1,6 +1,5 @@
 import { CardFooter, Button, Input, Link } from "@nextui-org/react";
-import React, { SetStateAction, useMemo, useState} from "react";
-import { validatePassword } from "../../utils/utils";
+import React, { SetStateAction, useEffect, useState} from "react";
 
 type Props = {
     setMnemonic: (string:SetStateAction<string>) => void
@@ -10,6 +9,8 @@ type Props = {
 export const Password: React.FC<Props> = ({setPassword,goNext}) => {
     const [isVisible] = useState(false);
     const [password,setPass] = useState('');
+    const [isValidPassword, setValidPassword] = useState(false)
+    const [isInvalidLength,setIsValidLength] = useState(false)
     const [confpassword,setConfPassword] = useState('');
     const [loading,setLoading] = useState(false)
     //variables para guardar las Llaves
@@ -21,14 +22,15 @@ export const Password: React.FC<Props> = ({setPassword,goNext}) => {
         goNext()
     };
 
-    const notMatchPassword = useMemo(() => {
-        if (password === "") return false
-        return validatePassword(password,confpassword) ? false : true;
+    useEffect(() => {
+        if (password === "")
+            setValidPassword(false);
+        (password === confpassword) ? setValidPassword(true) : setValidPassword(false);
       }, [password,confpassword])
 
-    const isInvalidLength = useMemo(() => {
-        if(password.length === 0) return true
-        if(password.length < 8) return true
+    useEffect(() => {
+        if(password.length === 0) setIsValidLength(true);
+        (password.length < 8) ? setIsValidLength(false) : setIsValidLength(true)
     },[password])
 
     return (
@@ -37,16 +39,16 @@ export const Password: React.FC<Props> = ({setPassword,goNext}) => {
                     <Input label="Password" variant="bordered" placeholder="Enter your password"
                       type={isVisible ? "text" : "password"}
                       className=" max-w-full"
-                      isInvalid={isInvalidLength}
-                      color={isInvalidLength ? "danger" : "default"}
+                      isInvalid={!isInvalidLength}
+                      color={!isInvalidLength ? "danger" : "default"}
                       onChange={(e) => setPass(e.target.value)}
                       />
                     <Input label="Confirm Password" variant="bordered" placeholder="Confirm your Password"                   
                       type={isVisible ? "text" : "password"}
                       className="max-w-full"
                       onChange={(e) => setConfPassword(e.target.value)}
-                      isInvalid={notMatchPassword}
-                      color={notMatchPassword ? "danger" : "default"}
+                      isInvalid={!isValidPassword}
+                      color={!isValidPassword ? "danger" : "default"}
                       />
                 </div>
             <CardFooter className="flex justify-between">
@@ -54,7 +56,7 @@ export const Password: React.FC<Props> = ({setPassword,goNext}) => {
                     className="btn-gradient text-white">
                         Back
                     </Button>
-                <Button isLoading={loading} isDisabled={isInvalidLength||notMatchPassword} radius="full" 
+                <Button isLoading={loading} isDisabled={!isInvalidLength||!isValidPassword} radius="full" 
                     className="btn-gradient text-white"
                     onClick={HandleContinueOnClick}>
                         Continue

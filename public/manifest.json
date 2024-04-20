@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "Wallet EVM",
+    "description": "A simple wallet for all EVM compatible",
+    "version": "0.0.1",
+    "icons" : {
+        "129" : "logo.png"
+    },
+    "action": {
+      "default_popup": "index.html"
+    }
+  }
