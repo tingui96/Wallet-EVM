@@ -48,8 +48,6 @@ export const verifyRemoveDefault = (defaultRPC:number,index:number) :number => {
     else return defaultRPC
 }
 
-export const validatePassword = (password:string,confirmPassword:string) => password === confirmPassword
-
 export function calcularSHA256(data:string) {
     const hash = sha256('0x'+ data);
     return hash
